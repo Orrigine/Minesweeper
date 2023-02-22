@@ -2,13 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile : MonoBehaviour
-{
-    // Start is called before the first frame update
-    [SerializeField] GameObject Original;
-    [SerializeField] GameObject[,] Tilemap = new GameObject[10, 10];
-
-    public struct Cell
+public struct Tile
     {
         public enum Type
         {
@@ -17,13 +11,21 @@ public class Tile : MonoBehaviour
             Number,
         }
         public Type type;
-        public Vector2Int position;
+        public Vector3Int position;
         public int number;
         public bool revealed;
         public bool flagged;
         public bool exploded;
 
     }
+
+public class TileMap : MonoBehaviour
+{
+    // Start is called before the first frame update
+    [SerializeField] GameObject Original;
+    [SerializeField] GameObject[,] Tilemap = new GameObject[10, 10];
+    
+    
     // 
     void InitTilemap()
     {
