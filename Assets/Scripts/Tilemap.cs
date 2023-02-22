@@ -2,16 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawner : MonoBehaviour
+public class TileMap : MonoBehaviour
 {
     // Start is called before the first frame update
-    // [SerializeField] private GameObject mover;
-    // [SerializeField] private float spawnRate = 2f;
     [SerializeField] GameObject Original;
-  
+    [SerializeField] GameObject[,] Tilemap = new GameObject[10, 10];
+    // 
+    void InitTilemap()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            for (int j = 0; j < 10; j++)
+            {
+                Instantiate(Original, new Vector2(i, j), Quaternion.identity);
+            }
+        }
+    }
     void Start()
     {
-        // InitTilemap();
+        InitTilemap();
     }
 
     // Update is called once per frame
