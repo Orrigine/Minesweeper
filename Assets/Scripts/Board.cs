@@ -8,26 +8,34 @@ public class Board : MonoBehaviour
     // Start is called before the first frame update
     public Tilemap tilemap { get; private set; }
 
-    public Tile[,] state { get; private set; }
-    public Tile tileEmpty { get; private set; }
-    public Tile tileUnknown { get; private set; }
-    public Tile tileBomb { get; private set; }
-    public Tile tileNumber { get; private set; }
-    public Tile tileFlag { get; private set; }
-    public Tile tileExploded { get; private set; }
-    public Tile tileRevealed { get; private set; }
-    public Tile tileNumber1 { get; private set; }
-    public Tile tileNumber2 { get; private set; }
-    public Tile tileNumber3 { get; private set; }
-    public Tile tileNumber4 { get; private set; }
-    public Tile tileNumber5 { get; private set; }
+    public Tile[,] State { get; private set; }
+    public Tile TileEmpty;
+    public Tile TileUnknown;
+    public Tile TileBomb;
+    public Tile TileNumber;
+    public Tile TileFlag;
+    public Tile TileExploded;
+    public Tile TileRevealed;
+    public Tile TileNumber1;
+    public Tile TileNumber2;
+    public Tile TileNumber3;
+    public Tile TileNumber4;
+    public Tile TileNumber5;
 
 
     private void Awake()
     {
         tilemap = GetComponent<Tilemap>();
     }
-    public void DrawTile(Tile[,] state)
+
+    /// <summary>
+    /// Draw the Board with all the Tiles in.
+    /// </summary>
+    /// <param name="state">The texture containing all animations</param>
+    /// <param name="frameSize">The size of one frame, in pixels</param>
+    /// <param name="framesPerAnimation">Number of frames per animations</param>
+    /// <param name="delayBetweenFrames">Delay in game frame between each animation frame</param>
+    public void Draw(Cell[,] state)
     {
         int width = state.GetLength(0);
         int height = state.GetLength(1);
@@ -36,52 +44,52 @@ public class Board : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                Tile tile = state[x, y];
-                // tilemap.SetTile(tile.position, GetTile(tile));
+                Cell cell = state[x, y];
+                tilemap.SetTile(cell.position, GetTile(cell));
             }
         }
     }
 
-    private Tile GetTile(Tile tile)
+    private Tile GetTile(Cell cell)
     {
-        if (tile.revealed) { return tileRevealed; }
-        else if (tile.flagged) { return tileFlag; }
-        else if (tile.exploded) { return tileExploded; }
-        else if (tile.type == Tile.Type.Empty) { return tileEmpty; }
-        else if (tile.type == Tile.Type.Bomb) { return tileBomb; }
+        if (cell.revealed) { return GetRevealedTile(cell); }
+        else if (cell.flagged) { return TileFlag; }
+        else if (cell.exploded) { return TileExploded; }
+        else if (cell.type == Cell.Type.Empty) { return TileEmpty; }
+        else if (cell.type == Cell.Type.Bomb) { return TileBomb; }
         // else if (tile.type == Tile.Type.Number)
         // {
-           
+
         // }
-        else { return tileUnknown; }
+        else { return TileUnknown; }
     }
 
-    private Tile GetRevealedTile(Tile tile)
+    private Tile GetRevealedTile(Cell cell)
     {
-        switch (tile.type)
+        switch (cell.type)
         {
-            case Tile.Type.Empty:
-                return tileEmpty;
-            case Tile.Type.Bomb:
-                return tileBomb;
-            case Tile.Type.Number:
-                switch (tile.number)
+            case Cell.Type.Empty:
+                return TileEmpty;
+            case Cell.Type.Bomb:
+                return TileBomb;
+            case Cell.Type.Number:
+                switch (cell.number)
                 {
                     case 1:
-                        return tileNumber1;
+                        return TileNumber1;
                     case 2:
-                        return tileNumber2;
+                        return TileNumber2;
                     case 3:
-                        return tileNumber3;
+                        return TileNumber3;
                     case 4:
-                        return tileNumber4;
+                        return TileNumber4;
                     case 5:
-                        return tileNumber5;
+                        return TileNumber5;
                     default:
-                        return tileNumber;
+                        return TileNumber;
                 }
             default:
-                return tileUnknown;
+                return TileUnknown;
         }
     }
 
@@ -90,45 +98,30 @@ public class Board : MonoBehaviour
         switch (number)
         {
             case 1:
-                return tileNumber1;
+                return TileNumber1;
             case 2:
-                return tileNumber2;
+                return TileNumber2;
             case 3:
-                return tileNumber3;
+                return TileNumber3;
             case 4:
-                return tileNumber4;
+                return TileNumber4;
             case 5:
-                return tileNumber5;
+                return TileNumber5;
             default:
-                return tileNumber;
+                return TileNumber;
         }
     }
-    [SerializeField] GameObject Original;
 
     [SerializeField] GameObject[,] Tilemap = new GameObject[10, 10];
     // 
-    void InitTilemap()
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            for (int j = 0; j < 10; j++)
-            {
-                Instantiate(Original, new Vector2(i, j), Quaternion.identity);
-            }
-        }
-    }
-    void Start()
-    {
-        InitTilemap();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // if (Time.timeSinceLevelLoad > spawnRate)
-        // {
-        //     Instantiate(Original, new Vector2(2, -2), Quaternion.identity);
-        //     spawnRate += 1f;
-        // }
-    }
+    // void InitTilemap()
+    // {
+    //     for (int i = 0; i < 10; i++)
+    //     {
+    //         for (int j = 0; j < 10; j++)
+    //         {
+    //             Instantiate(Original, new Vector2(i, j), Quaternion.identity);
+    //         }
+    //     }
+    // }
 }
