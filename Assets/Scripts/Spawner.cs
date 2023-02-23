@@ -12,6 +12,10 @@ public class Spawner : MonoBehaviour
     void Start()
     {
         // InitTilemap();
+        for(int i  = 0; i<10 ; i++)
+        {
+            Instantiate( Original, new Vector2(i, 0), Quaternion.identity);
+        }
     }
 
     // Update is called once per frame
@@ -19,7 +23,8 @@ public class Spawner : MonoBehaviour
     {
         // if (Time.timeSinceLevelLoad > spawnRate)
         // {
-        //     Instantiate(Original, new Vector2(2, -2), Quaternion.identity);
+        
+            
         //     spawnRate += 1f;
         // }
     }
