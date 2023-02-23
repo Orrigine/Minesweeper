@@ -205,33 +205,20 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1210254984
+--- !u!1 &1087619914 stripped
 GameObject:
+  m_CorrespondingSourceObject: {fileID: 8487591796761688539, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
+  m_PrefabInstance: {fileID: 1840497853}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1087619915
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1210254986}
-  - component: {fileID: 1210254985}
-  - component: {fileID: 1210254987}
-  m_Layer: 0
-  m_Name: Square
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!212 &1210254985
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1210254984}
+  m_GameObject: {fileID: 1087619914}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -345,8 +332,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb8c53f07b39f674dab7de97eabe16de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   Original: {fileID: 2111018644314717557, guid: 75fc7f45b64f32f48a1961c7cc5b7a84, type: 3}
 --- !u!4 &1481882813
 Transform:
@@ -384,7 +371,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3403738463842005326, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3403738463842005326, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -426,9 +413,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4964682529449256013, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7462252293138522855, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7719091509921939836, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8487591796761688539, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: m_Name
       value: Grid
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 991776759302312450, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
