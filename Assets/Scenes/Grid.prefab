@@ -133,7 +133,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fedef11154ede7e45bd73fdf29d446a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Original: {fileID: 0}
+  TileEmpty: {fileID: 11400000, guid: 81ae645ca1f646347b9b461b24681a2a, type: 2}
+  TileUnknown: {fileID: 11400000, guid: 0f26794fe2195904a9c052928da1313c, type: 2}
+  TileBomb: {fileID: 11400000, guid: 910d12d368bc5714e83cafcac2b3336e, type: 2}
+  TileNumber: {fileID: 11400000, guid: effd5068674654749b3ca9753afcdb67, type: 2}
+  TileFlag: {fileID: 11400000, guid: 02304e0382e28cb438d9560c21e887b5, type: 2}
+  TileExploded: {fileID: 11400000, guid: 910d12d368bc5714e83cafcac2b3336e, type: 2}
+  TileRevealed: {fileID: 11400000, guid: 81ae645ca1f646347b9b461b24681a2a, type: 2}
+  TileNumber1: {fileID: 11400000, guid: 4f6e4f56226335e4f8ee220081f91f76, type: 2}
+  TileNumber2: {fileID: 11400000, guid: a34c436e43f151543995547e6ecb496b, type: 2}
+  TileNumber3: {fileID: 0}
+  TileNumber4: {fileID: 0}
+  TileNumber5: {fileID: 0}
 --- !u!1 &8487591796761688539
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +155,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3403738463842005326}
   - component: {fileID: 7462252293138522855}
-  - component: {fileID: 991776759302312450}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -180,18 +190,6 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
---- !u!114 &991776759302312450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8487591796761688539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bd9297f224cc144dbafe1c11572f328, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &843607713731281884
 MonoBehaviour:
   m_ObjectHideFlags: 0
