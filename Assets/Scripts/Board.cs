@@ -22,7 +22,9 @@ public class Board : MonoBehaviour
     public Tile TileNumber4;
     public Tile TileNumber5;
 
-
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
     private void Awake()
     {
         tilemap = GetComponent<Tilemap>();
@@ -31,10 +33,7 @@ public class Board : MonoBehaviour
     /// <summary>
     /// Draw the Board with all the Tiles in.
     /// </summary>
-    /// <param name="state">The texture containing all animations</param>
-    /// <param name="frameSize">The size of one frame, in pixels</param>
-    /// <param name="framesPerAnimation">Number of frames per animations</param>
-    /// <param name="delayBetweenFrames">Delay in game frame between each animation frame</param>
+    /// <param name="state">The state of tile (bomb, unknown etc...</param>
     public void Draw(Cell[,] state)
     {
         int width = state.GetLength(0);
@@ -49,7 +48,11 @@ public class Board : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// Get the tile.
+    /// </summary>
+    /// <param name="cell">The instance of the cell</param>
+    /// <returns>The type of the cell</returns>
     private Tile GetTile(Cell cell)
     {
         if (cell.revealed) { return GetRevealedTile(cell); }
@@ -64,6 +67,11 @@ public class Board : MonoBehaviour
         else { return TileUnknown; }
     }
 
+    /// <summary>
+    /// Get the revealed tile.
+    /// </summary>
+    /// <param name="cell">The instance of the cell</param>
+    /// <returns>The type of the revealed cell</returns>
     private Tile GetRevealedTile(Cell cell)
     {
         switch (cell.type)
@@ -92,7 +100,11 @@ public class Board : MonoBehaviour
                 return TileUnknown;
         }
     }
-
+    /// <summary>
+    /// Get the number of bombs around the tile.
+    /// </summary>
+    /// <param name="number">The number of bombs around the tile</param>
+    /// <returns>The tile type with the number of bombs around it</returns>
     private Tile GetNumberTile(int number)
     {
         switch (number)
