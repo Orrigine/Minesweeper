@@ -227,6 +227,8 @@ MonoBehaviour:
   board: {fileID: 0}
   width: 10
   height: 10
+  distanceFromCamera: 10
+  mouseInWorld: {x: 0, y: 0, z: 0}
 --- !u!1001 &1840497853
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -234,6 +236,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 61932162811249983, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
+      propertyPath: m_TileAnchor.x
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1999125577463566612, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.2
@@ -308,19 +314,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6004667936727176639, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6004667936727176639, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6004667936727176639, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7462252293138522855, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7462252293138522855, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
+      propertyPath: m_CellGap.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7462252293138522855, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
+      propertyPath: m_CellGap.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7462252293138522855, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
+      propertyPath: m_CellSize.x
+      value: 2.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 7462252293138522855, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
+      propertyPath: m_CellSize.y
+      value: 2.56
       objectReference: {fileID: 0}
     - target: {fileID: 7719091509921939836, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: m_Enabled

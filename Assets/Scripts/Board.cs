@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
+using static UnityEngine.UI.Image;
+using VSCodeEditor;
 
 public class Board : MonoBehaviour
 {
+
     // Start is called before the first frame update
     public Tilemap tilemap { get; private set; }
 
@@ -22,6 +26,7 @@ public class Board : MonoBehaviour
     public Tile TileNumber4;
     public Tile TileNumber5;
 
+    
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
@@ -123,6 +128,7 @@ public class Board : MonoBehaviour
                 return TileNumber;
         }
     }
+    
 
     [SerializeField] GameObject[,] Tilemap = new GameObject[10, 10];
     // 
@@ -136,4 +142,6 @@ public class Board : MonoBehaviour
     //         }
     //     }
     // }
+   
+
 }
