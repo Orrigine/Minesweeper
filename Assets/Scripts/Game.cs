@@ -12,7 +12,7 @@ public class Game : MonoBehaviour
     [SerializeField] private Cell[,] state;
     [SerializeField] private int width = 10;
     [SerializeField] private int height = 10;
-    
+
 
     UnityEvent m_event;
     public float distanceFromCamera = 10;
@@ -47,7 +47,7 @@ public class Game : MonoBehaviour
 
 
         Vector3 mouseInScreen = Input.mousePosition;
-        mouseInScreen.z = distanceFromCamera;  
+        mouseInScreen.z = distanceFromCamera;
         mouseInWorld = Camera.main.ScreenToWorldPoint(mouseInScreen);
         mouseInWorld.x = (float)(mouseInWorld.x / 2.56);
         mouseInWorld.y = (float)(mouseInWorld.y / 2.56);
@@ -118,14 +118,31 @@ public class Game : MonoBehaviour
                 Cell cell = new()
                 {
                     position = new Vector3Int(x, y, 0),
-                    type = Cell.Type.Empty
+                    type = Cell.Type.Unknown,
                 };
+
                 state[x, y] = cell;
 
             }
-      
+
         }
     }
-    
+
+
+
+
+    private void GenerateBombs(Cell cell)
+    {
+
+    }
+
+    private void HandleFirstCLick()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            gameStarted = true;
+            // GenerateBombs(Cell cell);
+        }
+    }
 
 }
