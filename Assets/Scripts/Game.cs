@@ -8,6 +8,11 @@ public class Game : MonoBehaviour
     [SerializeField] private Cell[,] state;
     [SerializeField] private int width = 10;
     [SerializeField] private int height = 10;
+    // private readonly bool gameOver = false;
+    // private readonly bool gameWon = false;
+    private bool gameStarted = false;
+
+
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -50,11 +55,28 @@ public class Game : MonoBehaviour
                 Cell cell = new()
                 {
                     position = new Vector3Int(x, y, 0),
-                    type = Cell.Type.Empty
+                    type = Cell.Type.Unknown,
                 };
+                
                 state[x, y] = cell;
 
             }
+        }
+    }
+
+    
+
+    private void GenerateBombs(Cell cell)
+    {
+
+    }
+
+    private void HandleFirstCLick()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            gameStarted = true;
+            // GenerateBombs(Cell cell);
         }
     }
 

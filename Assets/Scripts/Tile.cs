@@ -9,6 +9,7 @@ public struct Cell
             Empty,
             Bomb, 
             Number,
+            Unknown,
         }
         public Type type;
         public Vector3Int position;
