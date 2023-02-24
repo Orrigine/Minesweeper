@@ -65,6 +65,9 @@ public class Game : MonoBehaviour
 
     
 
+    /// <summary>
+    /// Generate the bombs.
+    /// </summary>
     private void GenerateBombs(Cell cell)
     {
         for (int x = 0; x < width; x++)
@@ -80,6 +83,40 @@ public class Game : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Count the bombs
+    /// </summary>
+    /// <param name="cellX">The x position of the cell</param>
+    /// <param name="cellY">The y position of the cell</param>
+    /// <returns>The number of bombs</returns>
+    private int CountBombs(int cellX, int cellY)
+    {
+        int bombCount = 0;
+        for (int adjacentX = -1; adjacentX <= 1; adjacentX++)
+        {
+            for (int adjacentY = -1; adjacentY <= 1; adjacentY++)
+            {
+                if(adjacentX == cellX && adjacentY == cellY)
+                {
+                    continue;
+                }
+                
+                int x = cellX + adjacentX;
+                int y = cellY + adjacentY;
+
+                if (IsInBounds(new Vector3Int(x, y, 0)))
+                {
+                    if (GetCellFromPosition[x, y].type == Cell.Type.Bomb)
+                    {
+                        bombCount++;
+                    }
+                }
+            }
+        }
+        return bombCount;
+    }
+    
+
     private void HandleFirstCLick()
     {
         if (Input.GetMouseButtonDown(0))
@@ -89,6 +126,12 @@ public class Game : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Get the cell from the given position.
+    /// </summary>
+    /// <param name="position">The position of the cell</param>
+    /// <returns>The cell at given position</returns>
     private Cell GetCellFromPosition(Vector3Int position)
     {
         if (!IsInBounds(position))
@@ -101,6 +144,11 @@ public class Game : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Check if the given position is in bounds.
+    /// </summary>
+    /// <param name="position">The position to check</param>
+    /// <returns>True if the position is in bounds</returns>
     private bool IsInBounds(Vector3Int position)
     {
         return position.x >= 0 && position.x < width && position.y >= 0 && position.y < height;
