@@ -5,7 +5,7 @@ using UnityEngine;
 public class Game : MonoBehaviour
 {
     [SerializeField] private Board board;
-    [SerializeField] private Cell[,] state;
+    [SerializeField] private Cell[,] tab;
     [SerializeField] private int width = 10;
     [SerializeField] private int height = 10;
     // private readonly bool gameOver = false;
@@ -35,9 +35,9 @@ public class Game : MonoBehaviour
     /// </summary>
     private void NewGame()
     {
-        state = new Cell[width, height];
+        tab = new Cell[width, height];
         GenerateTiles();
-        board.Draw(state);
+        board.Draw(tab);
         Camera.main.transform.position = new Vector3(width, height, -30);
         // set camera size to fit the board
         Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, width / 2 + 1);
@@ -58,7 +58,7 @@ public class Game : MonoBehaviour
                     type = Cell.Type.Unknown,
                 };
                 
-                state[x, y] = cell;
+                tab[x, y] = cell;
             }
         }
     }
@@ -67,7 +67,17 @@ public class Game : MonoBehaviour
 
     private void GenerateBombs(Cell cell)
     {
-
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                // if bomb is on clicked cell
+                // {
+                //      NO BOMB
+                // }
+                tab[x, y].type = Random.Range(0, 100) < 20 ? Cell.Type.Bomb : Cell.Type.Empty;
+            }
+        }
     }
 
     private void HandleFirstCLick()
@@ -79,4 +89,20 @@ public class Game : MonoBehaviour
         }
     }
 
+    private Cell GetCellFromPosition(Vector3Int position)
+    {
+        if (!IsInBounds(position))
+        {
+            return new Cell();
+        }
+        else
+        {
+            return tab[position.x, position.y];
+        }
+    }
+    
+    private bool IsInBounds(Vector3Int position)
+    {
+        return position.x >= 0 && position.x < width && position.y >= 0 && position.y < height;
+    }
 }

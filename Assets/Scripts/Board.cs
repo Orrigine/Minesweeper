@@ -8,7 +8,7 @@ public class Board : MonoBehaviour
     // Start is called before the first frame update
     public Tilemap tilemap { get; private set; }
 
-    public Tile[,] State { get; private set; }
+    // public Tile[,] board { get; private set; }
     public Tile TileEmpty;
     public Tile TileUnknown;
     public Tile TileBomb;
@@ -33,18 +33,18 @@ public class Board : MonoBehaviour
     /// <summary>
     /// Draw the Board with all the Tiles in.
     /// </summary>
-    /// <param name="state">The state of tile (bomb, unknown etc...</param>
-    public void Draw(Cell[,] state)
+    /// <param name="board">The board of tile (bomb, unknown etc...</param>
+    public void Draw(Cell[,] board)
     {
-        int width = state.GetLength(0);
-        int height = state.GetLength(1);
+        int width = board.GetLength(0);
+        int height = board.GetLength(1);
         // 
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
-                Cell cell = state[x, y];
-                tilemap.SetTile(cell.position, GetTile(cell));
+                Cell cell = board[x, y];
+                tilemap.SetTile(cell.position, GetTile(cell.position, cell));
             }
         }
     }
@@ -53,7 +53,7 @@ public class Board : MonoBehaviour
     /// </summary>
     /// <param name="cell">The instance of the cell</param>
     /// <returns>The type of the cell</returns>
-    private Tile GetTile(Cell cell)
+    private Tile GetTile(Vector3Int position, Cell cell)
     {
         if (cell.revealed) { return GetRevealedTile(cell); }
         else if (cell.flagged) { return TileFlag; }
