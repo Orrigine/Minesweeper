@@ -127,7 +127,8 @@ public class Board : MonoBehaviour
     /// <summary>
     /// Change the tile at a given position with the given tile.
     /// </summary>
-    /// <param name="number">The number of bombs around the tile</param>
+    /// <param name="position">The position of the tile.</param>
+    /// <param name="tile">The new tile to add.</param>
     public void ChangeTile(Vector3Int position, Tile tile)
     {
         tilemap.SetTile(position, tile);
