@@ -99,6 +99,9 @@ public class Game : MonoBehaviour
         state = new Cell[width, height];
         GenerateTiles();
         board.Draw(state);
+        Camera.main.transform.position = new Vector3(width, height, -30);
+        // set camera size to fit the board
+        Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, width / 2 + 1);
     }
 
     /// <summary>

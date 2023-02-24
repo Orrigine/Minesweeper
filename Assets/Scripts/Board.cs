@@ -26,7 +26,7 @@ public class Board : MonoBehaviour
     public Tile TileNumber4;
     public Tile TileNumber5;
 
-    
+
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
@@ -43,7 +43,7 @@ public class Board : MonoBehaviour
     {
         int width = state.GetLength(0);
         int height = state.GetLength(1);
-        // 
+        //
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
@@ -128,20 +128,14 @@ public class Board : MonoBehaviour
                 return TileNumber;
         }
     }
-    
 
-    [SerializeField] GameObject[,] Tilemap = new GameObject[10, 10];
-    // 
-    // void InitTilemap()
-    // {
-    //     for (int i = 0; i < 10; i++)
-    //     {
-    //         for (int j = 0; j < 10; j++)
-    //         {
-    //             Instantiate(Original, new Vector2(i, j), Quaternion.identity);
-    //         }
-    //     }
-    // }
-   
-
+    /// <summary>
+    /// Change the tile at a given position with the given tile.
+    /// </summary>
+    /// <param name="position">The position of the tile.</param>
+    /// <param name="tile">The new tile to add.</param>
+    public void ChangeTile(Vector3Int position, Tile tile)
+    {
+        tilemap.SetTile(position, tile);
+    }
 }
