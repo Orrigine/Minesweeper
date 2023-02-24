@@ -41,7 +41,7 @@ public class Game : MonoBehaviour
         }
         NewGame();
     }
-     void Update()
+    void Update()
     {
 
 
@@ -59,40 +59,47 @@ public class Game : MonoBehaviour
             Debug.LogWarning("mouse in world: " + mouseInWorld);
         }*/
 
-
-        if (mouseInWorld.x <= width && mouseInWorld.x > 0 && mouseInWorld.y <= width && mouseInWorld.y > 0)
+        if (Input.GetMouseButtonDown(0))
         {
-
-            Cell cell = state[(int)mouseInWorld.x, (int)mouseInWorld.y];
-            if (Input.GetMouseButtonDown(0) && m_event != null && cell.flagged == false && cell.revealed == false)
+            if (mouseInWorld.x <= width && mouseInWorld.x > 0 && mouseInWorld.y <= width && mouseInWorld.y > 0)
             {
-
-                cell.revealed = true;
-                board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0),board.TileRevealed);
-
+                Cell cell = state[(int)mouseInWorld.x, (int)mouseInWorld.y];
+                Debug.Log(cell.flagged);
+                if (cell.flagged == false && cell.revealed == false)
+                {
+                    cell.revealed = true;
+                    board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileRevealed);
+                }
             }
-
-            else if (Input.GetMouseButtonDown(1) && m_event != null && cell.revealed == false)
+        }
+        else if (Input.GetMouseButtonDown(1))
+        {
+            if (mouseInWorld.x <= width && mouseInWorld.x > 0 && mouseInWorld.y <= width && mouseInWorld.y > 0)
             {
+                Cell cell = state[(int)mouseInWorld.x, (int)mouseInWorld.y];
 
-                if (cell.flagged == false)
+                Debug.Log(state[(int)mouseInWorld.x, (int)mouseInWorld.y].flagged);
+                if (state[(int)mouseInWorld.x, (int)mouseInWorld.y].revealed == false)
                 {
-                    cell.flagged = true;
-                    Debug.LogWarning("Put flag pos:" + cell.position);
-                    board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileFlag);
+                    if (state[(int)mouseInWorld.x, (int)mouseInWorld.y].flagged == false)
+                    {
+                        state[(int)mouseInWorld.x, (int)mouseInWorld.y].flagged = true;
+                        Debug.Log(state[(int)mouseInWorld.x, (int)mouseInWorld.y].flagged);
+                        Debug.LogWarning("Put flag pos:" + state[(int)mouseInWorld.x, (int)mouseInWorld.y].position);
+                        board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileFlag);
+                    }else if (state[(int)mouseInWorld.x, (int)mouseInWorld.y].flagged == true)
+                    {
+                        state[(int)mouseInWorld.x, (int)mouseInWorld.y].flagged = false;
+                        Debug.LogWarning("unput flag" + state[(int)mouseInWorld.x, (int)mouseInWorld.y].position);
+                        board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileUnknown);
+                    }
                 }
-
-                else
-                {
-                    cell.flagged = false;
-                    Debug.LogWarning("unput flag" + cell.position);
-                    board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileUnknown);
-                }
-
+                Debug.Log(cell.flagged);
             }
         }
 
     }
+
     /// <summary>
     /// Create a new game according width and height.
     /// </summary>
@@ -138,11 +145,11 @@ public class Game : MonoBehaviour
 
     private void HandleFirstCLick()
     {
-        if (Input.GetMouseButtonDown(0))
+        /*if (Input.GetMouseButtonDown(0))
         {
             gameStarted = true;
             // GenerateBombs(Cell cell);
-        }
+        }*/
     }
 
 }
