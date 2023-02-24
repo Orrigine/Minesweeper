@@ -123,17 +123,13 @@ public class Board : MonoBehaviour
                 return TileNumber;
         }
     }
-
-    [SerializeField] GameObject[,] Tilemap = new GameObject[10, 10];
-    // 
-    // void InitTilemap()
-    // {
-    //     for (int i = 0; i < 10; i++)
-    //     {
-    //         for (int j = 0; j < 10; j++)
-    //         {
-    //             Instantiate(Original, new Vector2(i, j), Quaternion.identity);
-    //         }
-    //     }
-    // }
+    
+    /// <summary>
+    /// Change the tile at a given position with the given tile.
+    /// </summary>
+    /// <param name="number">The number of bombs around the tile</param>
+    public void ChangeTile(Vector3Int position, Tile tile)
+    {
+        tilemap.SetTile(position, tile);
+    }
 }
