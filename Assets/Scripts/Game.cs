@@ -43,6 +43,9 @@ public class Game : MonoBehaviour
     }
      void Update()
     {
+
+
+
         Vector3 mouseInScreen = Input.mousePosition;
         mouseInScreen.z = distanceFromCamera;  
         mouseInWorld = Camera.main.ScreenToWorldPoint(mouseInScreen);
@@ -50,23 +53,22 @@ public class Game : MonoBehaviour
         mouseInWorld.y = (float)(mouseInWorld.y / 2.56);
 
 
-        if (Input.GetMouseButtonDown(0))
+        /*if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("posx:" + (int)mouseInWorld.x + "\n posy:" + (int)mouseInWorld.y + "\n posz: " + (int)mouseInWorld.z);
             Debug.LogWarning("mouse in world: " + mouseInWorld);
-        }
+        }*/
 
-/*
+
         if (mouseInWorld.x <= width && mouseInWorld.x > 0 && mouseInWorld.y <= width && mouseInWorld.y > 0)
         {
 
             Cell cell = state[(int)mouseInWorld.x, (int)mouseInWorld.y];
-            if (Input.GetMouseButtonDown(0) && m_event != null && cell.flagged == false)
+            if (Input.GetMouseButtonDown(0) && m_event != null && cell.flagged == false && cell.revealed == false)
             {
 
                 cell.revealed = true;
-                Debug.LogWarning("reveal pos:" + cell.position);
-
+                board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0),board.TileRevealed);
 
             }
 
@@ -77,18 +79,18 @@ public class Game : MonoBehaviour
                 {
                     cell.flagged = true;
                     Debug.LogWarning("Put flag pos:" + cell.position);
-                    //change le sprite encase avec flag 
+                    board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileFlag);
                 }
 
                 else
                 {
                     cell.flagged = false;
                     Debug.LogWarning("unput flag" + cell.position);
-                    //change le sprite en case de base 
+                    board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileUnknown);
                 }
 
             }
-        }*/
+        }
 
     }
     /// <summary>
