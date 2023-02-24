@@ -59,7 +59,6 @@ public class Game : MonoBehaviour
                 };
                 
                 state[x, y] = cell;
-
             }
         }
     }
