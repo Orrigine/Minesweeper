@@ -63,8 +63,11 @@ public class Game : MonoBehaviour
         {
             if (mouseInWorld.x <= width && mouseInWorld.x > 0 && mouseInWorld.y <= width && mouseInWorld.y > 0)
             {
-                Cell cell = state[(int)mouseInWorld.x, (int)mouseInWorld.y];
-                Debug.Log(cell.flagged);
+                
+                /**/ 
+                Cell cell = tab[(int)mouseInWorld.x, (int)mouseInWorld.y];
+                /**/
+
                 if (cell.flagged == false && cell.revealed == false)
                 {
                     cell.revealed = true;
@@ -76,28 +79,28 @@ public class Game : MonoBehaviour
         {
             if (mouseInWorld.x <= width && mouseInWorld.x > 0 && mouseInWorld.y <= width && mouseInWorld.y > 0)
             {
-                Cell cell = state[(int)mouseInWorld.x, (int)mouseInWorld.y];
 
-                Debug.Log(state[(int)mouseInWorld.x, (int)mouseInWorld.y].flagged);
-                if (state[(int)mouseInWorld.x, (int)mouseInWorld.y].revealed == false)
+                /**/
+                Cell cell = tab[(int)mouseInWorld.x, (int)mouseInWorld.y];
+                /**/
+
+
+                if (cell.revealed == false)
                 {
-                    if (state[(int)mouseInWorld.x, (int)mouseInWorld.y].flagged == false)
+                    if (cell.flagged == false)
                     {
-                        state[(int)mouseInWorld.x, (int)mouseInWorld.y].flagged = true;
-                        Debug.Log(state[(int)mouseInWorld.x, (int)mouseInWorld.y].flagged);
-                        Debug.LogWarning("Put flag pos:" + state[(int)mouseInWorld.x, (int)mouseInWorld.y].position);
+                        cell.flagged = true;
                         board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileFlag);
-                    }else if (state[(int)mouseInWorld.x, (int)mouseInWorld.y].flagged == true)
+                    }else if (cell.flagged == true)
                     {
-                        state[(int)mouseInWorld.x, (int)mouseInWorld.y].flagged = false;
-                        Debug.LogWarning("unput flag" + state[(int)mouseInWorld.x, (int)mouseInWorld.y].position);
+                        cell.flagged = false;
                         board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileUnknown);
                     }
                 }
-                Debug.Log(cell.flagged);
             }
+            
         }
-
+     
     }
 
     /// <summary>
@@ -129,6 +132,7 @@ public class Game : MonoBehaviour
                 };
 
                 tab[x, y] = cell;
+
             }
 
         }
@@ -139,17 +143,7 @@ public class Game : MonoBehaviour
 
     private void GenerateBombs(Cell cell)
     {
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                // if bomb is on clicked cell
-                // {
-                //      NO BOMB
-                // }
-                tab[x, y].type = Random.Range(0, 100) < 20 ? Cell.Type.Bomb : Cell.Type.Empty;
-            }
-        }
+
     }
 
     private void HandleFirstCLick()
@@ -161,20 +155,4 @@ public class Game : MonoBehaviour
         }*/
     }
 
-    private Cell GetCellFromPosition(Vector3Int position)
-    {
-        if (!IsInBounds(position))
-        {
-            return new Cell();
-        }
-        else
-        {
-            return tab[position.x, position.y];
-        }
-    }
-
-    private bool IsInBounds(Vector3Int position)
-    {
-        return position.x >= 0 && position.x < width && position.y >= 0 && position.y < height;
-    }
 }
