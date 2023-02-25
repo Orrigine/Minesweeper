@@ -63,8 +63,8 @@ public class Game : MonoBehaviour
         {
             if (mouseInWorld.x <= width && mouseInWorld.x > 0 && mouseInWorld.y <= width && mouseInWorld.y > 0)
             {
-                
-                /**/ 
+
+                /**/
                 Cell cell = tab[(int)mouseInWorld.x, (int)mouseInWorld.y];
                 /**/
 
@@ -98,9 +98,9 @@ public class Game : MonoBehaviour
                     }
                 }
             }
-            
+
         }
-     
+
     }
 
     /// <summary>
@@ -141,10 +141,47 @@ public class Game : MonoBehaviour
 
 
 
+    /// <summary>
+    /// Generate the bombs.
+    /// </summary>
     private void GenerateBombs(Cell cell)
     {
 
     }
+
+    /// <summary>
+    /// Count the bombs
+    /// </summary>
+    /// <param name="cellX">The x position of the cell</param>
+    /// <param name="cellY">The y position of the cell</param>
+    /// <returns>The number of bombs</returns>
+    private int CountBombs(int cellX, int cellY)
+    {
+        int bombCount = 0;
+        for (int adjacentX = -1; adjacentX <= 1; adjacentX++)
+        {
+            for (int adjacentY = -1; adjacentY <= 1; adjacentY++)
+            {
+                if(adjacentX == cellX && adjacentY == cellY)
+                {
+                    continue;
+                }
+
+                int x = cellX + adjacentX;
+                int y = cellY + adjacentY;
+
+                if (IsInBounds(new Vector3Int(x, y, 0)))
+                {
+                    if (GetCellFromPosition[x, y].type == Cell.Type.Bomb)
+                    {
+                        bombCount++;
+                    }
+                }
+            }
+        }
+        return bombCount;
+    }
+
 
     private void HandleFirstCLick()
     {
@@ -155,4 +192,31 @@ public class Game : MonoBehaviour
         }*/
     }
 
+
+    /// <summary>
+    /// Get the cell from the given position.
+    /// </summary>
+    /// <param name="position">The position of the cell</param>
+    /// <returns>The cell at given position</returns>
+    private Cell GetCellFromPosition(Vector3Int position)
+    {
+        if (!IsInBounds(position))
+        {
+            return new Cell();
+        }
+        else
+        {
+            return tab[position.x, position.y];
+        }
+    }
+
+    /// <summary>
+    /// Check if the given position is in bounds.
+    /// </summary>
+    /// <param name="position">The position to check</param>
+    /// <returns>True if the position is in bounds</returns>
+    private bool IsInBounds(Vector3Int position)
+    {
+        return position.x >= 0 && position.x < width && position.y >= 0 && position.y < height;
+    }
 }
