@@ -201,13 +201,15 @@ public class Game : MonoBehaviour
     /// /// <param name="value">The new value of the cell </param>
     private void ModifyCell(bool value, int type, Vector3Int position)
     {
-        if(type == 0)
-        {
-            tab[position.x,position.y].revealed = value;
-        }
-        else
-        {
-            tab[position.x, position.y].flagged = value;
+        if(IsInBounds(position)){
+            if (type == 0)
+            {
+                tab[position.x, position.y].revealed = value;
+            }
+            else
+            {
+                tab[position.x, position.y].flagged = value;
+            }
         }
     }
 
