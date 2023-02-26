@@ -20,7 +20,6 @@ public class Game : MonoBehaviour
 
 
 
-
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
@@ -65,12 +64,13 @@ public class Game : MonoBehaviour
             {
 
                 /**/
-                Cell cell = tab[(int)mouseInWorld.x, (int)mouseInWorld.y];
+                Vector3Int poscell = new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0);
+                
                 /**/
 
-                if (cell.flagged == false && cell.revealed == false)
+                if (GetCellFromPosition(poscell).flagged == false && GetCellFromPosition(poscell).revealed == false)
                 {
-                    cell.revealed = true;
+                    ModifyCell(true, 0,poscell);
                     board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileRevealed);
                 }
             }
@@ -81,19 +81,19 @@ public class Game : MonoBehaviour
             {
 
                 /**/
-                Cell cell = tab[(int)mouseInWorld.x, (int)mouseInWorld.y];
+                Vector3Int poscell = new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0);
                 /**/
 
 
-                if (cell.revealed == false)
+                if (GetCellFromPosition(poscell).revealed == false)
                 {
-                    if (cell.flagged == false)
+                    if (GetCellFromPosition(poscell).flagged == false)
                     {
-                        cell.flagged = true;
+                        ModifyCell(true, 1, poscell);
                         board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileFlag);
-                    }else if (cell.flagged == true)
+                    }else if (GetCellFromPosition(poscell).flagged == true)
                     {
-                        cell.flagged = false;
+                        ModifyCell(false, 1, poscell);
                         board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileUnknown);
                     }
                 }
@@ -191,6 +191,26 @@ public class Game : MonoBehaviour
             // GenerateBombs(Cell cell);
         }*/
     }
+
+
+    /// <summary>
+    /// Get the cell and modify the cell from the given position , a value and a type ( reaveled / flagged ).
+    /// </summary>
+    /// <param name="position">The position of the cell</param>
+    /// /// <param name="type">The type of the modificaton</param>
+    /// /// <param name="value">The new value of the cell </param>
+    private void ModifyCell(bool value, int type, Vector3Int position)
+    {
+        if(type == 0)
+        {
+            tab[position.x,position.y].revealed = value;
+        }
+        else
+        {
+            tab[position.x, position.y].flagged = value;
+        }
+    }
+
 
 
     /// <summary>
