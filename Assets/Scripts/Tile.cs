@@ -16,6 +16,7 @@ public struct Cell
             Unknown,
         }
         public Type type;
+        public Type secretTile;
         public Vector3Int position;
         public int number;
         public bool revealed;

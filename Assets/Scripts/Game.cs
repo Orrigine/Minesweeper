@@ -71,7 +71,15 @@ public class Game : MonoBehaviour
                 if (GetCellFromPosition(poscell).flagged == false && GetCellFromPosition(poscell).revealed == false)
                 {
                     ModifyCell(true, 0,poscell);
-                    board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileRevealed);
+                    if(GetCellFromPosition(poscell).secretTile == Cell.Type.Empty)
+                    {
+                        board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileRevealed);
+                    }
+                    if (GetCellFromPosition(poscell).type == Cell.Type.Bomb)
+                    {
+                        board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileBomb);
+                    }
+
                 }
             }
         }
@@ -129,6 +137,7 @@ public class Game : MonoBehaviour
                 {
                     position = new Vector3Int(x, y, 0),
                     type = Cell.Type.Unknown,
+                    secretTile = Cell.Type.Empty,
                 };
 
                 tab[x, y] = cell;
@@ -146,6 +155,14 @@ public class Game : MonoBehaviour
     /// </summary>
     private void GenerateBombs(Cell cell)
     {
+        int bomb = width*height/4;
+        for (int h =0 ; h <height; h++)
+        {
+            for (int w = 0; w < width; w++)
+            {
+                tab[h, w].secretTile = Cell.Type.Bomb;
+            }
+        }
 
     }
 
