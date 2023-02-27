@@ -31,7 +31,7 @@ public class Game : MonoBehaviour
     public float distanceFromCamera = 10;
     public Vector3 mouseInWorld = new();
     private int difficulty;
-
+    Vector3Int vect;
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
@@ -254,8 +254,38 @@ public class Game : MonoBehaviour
 
     private void DestroyEmptyCase(Vector3Int position)
     {
+        
         for (int loop = 0; loop < 9; loop++)
         {
+
+            switch (loop) {
+                case 0:
+                    vect = new Vector3Int(position.x-1, position.y-1, 0);
+                    break;
+                case 1:
+                    vect = new Vector3Int(position.x - 1, position.y, 0);
+                    break;
+                case 2:
+                     vect = new Vector3Int(position.x - 1, position.y+1, 0);
+                    break;
+                case 3:
+                     vect = new Vector3Int(position.x, position.y -1, 0);
+                    break;
+                case 4:
+                    vect = new Vector3Int(position.x, position.y + 1, 0);
+                    break;
+                case 5:
+                    vect = new Vector3Int(position.x+1, position.y-1, 0);
+                    break;
+                case 6:
+                    vect = new Vector3Int(position.x +1, position.y, 0);
+                    break;
+                case 7:
+                    vect = new Vector3Int(position.x + 1, position.y + 1, 0);
+                    break;
+                default:
+                    break;
+            }
             if (GetCellFromPosition(vect).secretTile == Cell.Type.Empty)
             {
                 if (GetCellFromPosition(vect).revealed == false)
