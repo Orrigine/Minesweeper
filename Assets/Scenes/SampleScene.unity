@@ -222,13 +222,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4bd9297f224cc144dbafe1c11572f328, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   board: {fileID: 0}
   width: 10
   height: 10
   distanceFromCamera: 10
   mouseInWorld: {x: 0, y: 0, z: 0}
+  difficulty: 4
 --- !u!1001 &1840497853
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -242,59 +243,59 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: TileFlag
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: 02304e0382e28cb438d9560c21e887b5, type: 2}
     - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: TileEmpty
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: 81ae645ca1f646347b9b461b24681a2a, type: 2}
     - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: TileNumber
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: effd5068674654749b3ca9753afcdb67, type: 2}
     - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: TileNumber1
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: 4f6e4f56226335e4f8ee220081f91f76, type: 2}
     - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: TileNumber2
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: a34c436e43f151543995547e6ecb496b, type: 2}
     - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: TileNumber3
-      value:
-      objectReference: {fileID: 11400000, guid: effd5068674654749b3ca9753afcdb67, type: 2}
+      value: 
+      objectReference: {fileID: 11400000, guid: a0db226856c44314e939660903158dc0, type: 2}
     - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: TileNumber4
-      value:
-      objectReference: {fileID: 11400000, guid: effd5068674654749b3ca9753afcdb67, type: 2}
+      value: 
+      objectReference: {fileID: 11400000, guid: 60765d8331e22dc40b84a371f76929c3, type: 2}
     - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: TileNumber5
-      value:
-      objectReference: {fileID: 11400000, guid: effd5068674654749b3ca9753afcdb67, type: 2}
+      value: 
+      objectReference: {fileID: 11400000, guid: edbae6665df3b364ba58cd64ba6fe0d4, type: 2}
     - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: TileNumber6
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: 5d05c8e45fd2b4145aece4d7d81f951a, type: 2}
     - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: TileNumber7
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: 740b9ee8008071c48a39c4b8f43fa6b8, type: 2}
     - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: TileNumber8
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: 71284f51638cb6043ad88c74ecc8cdc3, type: 2}
     - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: TileUnknown
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: 0f26794fe2195904a9c052928da1313c, type: 2}
     - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: TileExploded
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: 910d12d368bc5714e83cafcac2b3336e, type: 2}
     - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: TileRevealed
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: 81ae645ca1f646347b9b461b24681a2a, type: 2}
     - target: {fileID: 1999125577463566612, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: m_LocalScale.x

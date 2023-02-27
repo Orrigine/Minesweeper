@@ -5,6 +5,7 @@ using static UnityEngine.UI.Image;
 using UnityEngine.Events;
 using VSCodeEditor;
 using UnityEngine.UIElements;
+using System.Linq.Expressions;
 
 public class Game : MonoBehaviour
 {
@@ -81,6 +82,43 @@ public class Game : MonoBehaviour
                     else if (GetCellFromPosition(poscell).secretTile == Cell.Type.Bomb)
                     {
                         board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileBomb);
+                        Debug.LogWarning("Macron explosion");
+                    }
+                    else if (GetCellFromPosition(poscell).secretTile == Cell.Type.Number)
+                    {
+                        int nombre =GetCellFromPosition(poscell).number;
+                        if(nombre == 1)
+                        {
+                            board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber1);
+                        }
+                        if (nombre == 2)
+                        {
+                            board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber2);
+                        }
+                        if (nombre == 3)
+                        {
+                            board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber3);
+                        }
+                        if (nombre == 4)
+                        {
+                            board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber4);
+                        }
+                        if (nombre == 5)
+                        {
+                            board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber5);
+                        }
+                        if (nombre == 6)
+                        {
+                            board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber6);
+                        }
+                        if (nombre == 7)
+                        {
+                            board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber7);
+                        }
+                        if (nombre == 8)
+                        {
+                            board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber8);
+                        }
                         Debug.LogWarning("Macron explosion");
                     }
 
@@ -186,6 +224,80 @@ public class Game : MonoBehaviour
 
     }
 
+    private int LookAround(int x, int y)
+    {
+        int numberBombAround = 0;
+        Vector3Int position = new Vector3Int(x, y, 0);
+        if (GetCellFromPosition(new Vector3Int(position.x - 1, position.y - 1, 0)).secretTile == Cell.Type.Bomb) { numberBombAround++; }
+        if (GetCellFromPosition(new Vector3Int(position.x - 1, position.y, 0)).secretTile == Cell.Type.Bomb) { numberBombAround++; }
+        if (GetCellFromPosition(new Vector3Int(position.x - 1, position.y + 1, 0)).secretTile == Cell.Type.Bomb) { numberBombAround++; }
+        if (GetCellFromPosition(new Vector3Int(position.x, position.y - 1, 0)).secretTile == Cell.Type.Bomb) { numberBombAround++; }
+        if (GetCellFromPosition(new Vector3Int(position.x, position.y + 1, 0)).secretTile == Cell.Type.Bomb) { numberBombAround++; }
+        if (GetCellFromPosition(new Vector3Int(position.x + 1, position.y - 1, 0)).secretTile == Cell.Type.Bomb) { numberBombAround++; }
+        if (GetCellFromPosition(new Vector3Int(position.x + 1, position.y, 0)).secretTile == Cell.Type.Bomb) { numberBombAround++; }
+        if (GetCellFromPosition(new Vector3Int(position.x + 1, position.y + 1, 0)).secretTile == Cell.Type.Bomb) { numberBombAround++; }
+
+
+        return numberBombAround;
+    }
+    private void GenerateNumbers()
+    {
+
+        for (int h = 0; h < height; h++)
+        {
+            for (int w = 0; w < width; w++)
+            {
+                if (tab[w, h].secretTile != Cell.Type.Bomb)
+                {
+                    
+                    int nombre = LookAround((int)w,(int)h);
+
+                    switch(nombre)
+                    {
+                        case 1:
+                            tab[w, h].secretTile = Cell.Type.Number;
+                            tab[w, h].number = nombre;
+                            break;
+                        case 2:
+                            tab[w, h].secretTile = Cell.Type.Number;
+                            tab[w, h].number = nombre;
+                            break;
+                        case 3:
+                            tab[w, h].secretTile = Cell.Type.Number;
+                            tab[w, h].number = nombre;
+                            break;
+                        case 4:
+                            tab[w, h].secretTile = Cell.Type.Number;
+                            tab[w, h].number = nombre;
+                            break;
+                        case 5:
+                            tab[w, h].secretTile = Cell.Type.Number;
+                            tab[w, h].number = nombre;
+                            break;
+                        case 6:
+                            tab[w, h].secretTile = Cell.Type.Number;
+                            tab[w, h].number = nombre;
+                            break;
+                        case 7:
+                            tab[w, h].secretTile = Cell.Type.Number;
+                            tab[w, h].number = nombre;
+                            break;
+                        case 8:
+                            tab[w, h].secretTile = Cell.Type.Number;
+                            tab[w, h].number = nombre;
+                            break;
+                        default:
+                            break;
+                    }
+
+                }               
+                
+            }
+        }
+    }
+
+
+    
     private bool probability()
     {
         int taille = width * height;
@@ -237,6 +349,7 @@ public class Game : MonoBehaviour
         {
             gameStarted = true;
             GenerateBombs();
+            GenerateNumbers();
             // GenerateBombs(Cell cell);
         }
         
