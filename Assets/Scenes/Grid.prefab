@@ -133,7 +133,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fedef11154ede7e45bd73fdf29d446a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Original: {fileID: 0}
+  TileEmpty: {fileID: 0}
+  TileUnknown: {fileID: 0}
+  TileBomb: {fileID: 0}
+  TileNumber: {fileID: 0}
+  TileFlag: {fileID: 0}
+  TileExploded: {fileID: 0}
+  TileRevealed: {fileID: 0}
+  TileNumber1: {fileID: 0}
+  TileNumber2: {fileID: 0}
+  TileNumber3: {fileID: 0}
+  TileNumber4: {fileID: 0}
+  TileNumber5: {fileID: 0}
+  TileNumber6: {fileID: 0}
+  TileNumber7: {fileID: 0}
+  TileNumber8: {fileID: 0}
 --- !u!1 &8487591796761688539
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +158,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3403738463842005326}
   - component: {fileID: 7462252293138522855}
-  - component: {fileID: 991776759302312450}
+  - component: {fileID: 8876577417488320934}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -180,7 +194,7 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
---- !u!114 &991776759302312450
+--- !u!114 &8876577417488320934
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -192,6 +206,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bd9297f224cc144dbafe1c11572f328, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  board: {fileID: 0}
+  width: 10
+  height: 10
 --- !u!114 &843607713731281884
 MonoBehaviour:
   m_ObjectHideFlags: 0

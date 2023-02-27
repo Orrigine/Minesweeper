@@ -6,13 +6,21 @@ public class Game : MonoBehaviour
 {
     [SerializeField] private Board board;
     [SerializeField] private Cell[,] tab;
-    [SerializeField] private int width = 10;
-    [SerializeField] private int height = 10;
+    [SerializeField]  int width = 0;
+    [SerializeField]  int height = 0;
+    
+    [SerializeField] private Difficulty? currentDifficulty = null;
     // private readonly bool gameOver = false;
     // private readonly bool gameWon = false;
     private bool gameStarted = false;
-
-
+    
+    private enum Difficulty
+    {
+        Easy,
+        Medium,
+        Hard,
+        Madness,
+    }
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -27,7 +35,36 @@ public class Game : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        currentDifficulty = Difficulty.Hard;
+        SetDifficulty();
         NewGame();
+    }
+
+    
+    /// <summary>
+    /// Set the difficulty by switching in the Enum Difficulty.
+    /// </summary>
+    private void SetDifficulty()
+    {
+        switch (currentDifficulty)
+        {
+            case Difficulty.Easy:
+                width = 10;
+                height = 10;
+                break;
+            case Difficulty.Medium:
+                width = 25;
+                height = 25;
+                break;
+            case Difficulty.Hard:
+                width = 40;
+                height = 40;
+                break;
+            case Difficulty.Madness:
+                width = 69;
+                height = 69;
+                break;
+        }
     }
 
     /// <summary>
@@ -38,9 +75,11 @@ public class Game : MonoBehaviour
         tab = new Cell[width, height];
         GenerateTiles();
         board.Draw(tab);
-        Camera.main.transform.position = new Vector3(width, height, -30);
+        Camera.main.transform.position = new Vector3((width*0.5f) + 7, (height*0.5f) + 8, -30);
+        
         // set camera size to fit the board
-        Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, width / 2 + 1);
+        Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, width + height );
+        // Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, height );
     }
 
     /// <summary>
