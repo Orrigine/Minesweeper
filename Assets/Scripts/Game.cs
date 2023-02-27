@@ -154,7 +154,7 @@ public class Game : MonoBehaviour
 
 
     /// <summary>
-    /// Set the camera position. 
+    /// Set the camera position.
     /// 0.5f because the camera is in the center of the board.
     /// 2.56f because the size of the tile is 2.56f.
     /// </summary>
@@ -300,6 +300,12 @@ public class Game : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Look around the position for the number of bombs around.
+    /// </summary>
+    /// <param name="x">The x position</param>
+    /// <param name="y">The y position</param>
+    /// <returns>The number of bombs around</returns>
     private int LookAround(int x, int y)
     {
         int numberBombAround = 0;
@@ -316,6 +322,9 @@ public class Game : MonoBehaviour
 
         return numberBombAround;
     }
+    /// <summary>
+    /// Generate the numbers.
+    /// </summary>
     private void GenerateNumbers()
     {
 
@@ -373,7 +382,10 @@ public class Game : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// The probability to generate bombs.
+    /// </summary>
+    /// <returns>True if the bomb is generated</returns>
     private bool Probability()
     {
         int taille = width * height;
@@ -419,6 +431,9 @@ public class Game : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Handle the first click and call GenerateBombs after first click.
+    /// </summary>
     private void HandleFirstClick()
     {
         if (Input.GetMouseButtonDown(0) && gameStarted == false)
@@ -426,19 +441,17 @@ public class Game : MonoBehaviour
             gameStarted = true;
             GenerateBombs();
             GenerateNumbers();
-            // GenerateBombs(Cell cell);
         }
 
 
     }
 
-
     /// <summary>
     /// Get the cell and modify the cell from the given position , a value and a type ( reaveled / flagged ).
     /// </summary>
+    /// <param name="value">The new value of the cell </param>
+    /// <param name="type">The type of the modificaton</param>
     /// <param name="position">The position of the cell</param>
-    /// /// <param name="type">The type of the modificaton</param>
-    /// /// <param name="value">The new value of the cell </param>
     private void ModifyCell(bool value, int type, Vector3Int position)
     {
         if(IsInBounds(position)){
