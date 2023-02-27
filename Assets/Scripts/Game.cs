@@ -11,16 +11,25 @@ public class Game : MonoBehaviour
 {
     [SerializeField] private Board board;
     [SerializeField] private Cell[,] tab;
-    [SerializeField] private int width = 10;
-    [SerializeField] private int height = 10;
+    [SerializeField] private int width = 0;
+    [SerializeField] private int height = 0;
 
-    private bool gameStarted =false;
+    [SerializeField] private Difficulty? currentDifficulty = null;
+    // private readonly bool gameOver = false;
+    // private readonly bool gameWon = false;
+    private bool gameStarted = false;
 
+    private enum Difficulty
+    {
+        Easy,
+        Medium,
+        Hard,
+        Madness,
+    }
     UnityEvent m_event;
     public float distanceFromCamera = 10;
     public Vector3 mouseInWorld = new Vector3();
     public int difficulty = 4;
-
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -35,11 +44,12 @@ public class Game : MonoBehaviour
     /// </summary>
     private void Start()
     {
-
-        if (m_event == null)
-        {
-            m_event = new UnityEvent();
-        }
+      if (m_event == null)
+      {
+          m_event = new UnityEvent();
+      }
+        currentDifficulty = Difficulty.Hard;
+        SetDifficulty();
         NewGame();
     }
     void Update()
@@ -59,19 +69,19 @@ public class Game : MonoBehaviour
         }*/
 
         HandleFirstCLick();
-         
-        
+
+
         if (Input.GetMouseButtonDown(0))
         {
-            
+
             if (mouseInWorld.x <= width && mouseInWorld.x > 0 && mouseInWorld.y <= width && mouseInWorld.y > 0)
             {
 
                 /**/
                 Vector3Int poscell = new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0);
-                
+
                 /**/
-               
+
                 if (GetCellFromPosition(poscell).flagged == false && GetCellFromPosition(poscell).revealed == false)
                 {
                     ModifyCell(true, 0,poscell);
@@ -153,6 +163,33 @@ public class Game : MonoBehaviour
 
     }
 
+
+    /// <summary>
+    /// Set the difficulty by switching in the Enum Difficulty.
+    /// </summary>
+    private void SetDifficulty()
+    {
+        switch (currentDifficulty)
+        {
+            case Difficulty.Easy:
+                width = 10;
+                height = 10;
+                break;
+            case Difficulty.Medium:
+                width = 25;
+                height = 25;
+                break;
+            case Difficulty.Hard:
+                width = 40;
+                height = 40;
+                break;
+            case Difficulty.Madness:
+                width = 69;
+                height = 69;
+                break;
+        }
+    }
+
     /// <summary>
     /// Create a new game according width and height.
     /// </summary>
@@ -161,9 +198,11 @@ public class Game : MonoBehaviour
         tab = new Cell[width, height];
         GenerateTiles();
         board.Draw(tab);
-        Camera.main.transform.position = new Vector3(width, height, -30);
+        Camera.main.transform.position = new Vector3((width*0.5f) + 7, (height*0.5f) + 8, -30);
+
         // set camera size to fit the board
-        Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, width / 2 + 1);
+        Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, width + height );
+        // Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, height );
     }
 
     /// <summary>
@@ -249,7 +288,7 @@ public class Game : MonoBehaviour
             {
                 if (tab[w, h].secretTile != Cell.Type.Bomb)
                 {
-                    
+
                     int nombre = LookAround((int)w,(int)h);
 
                     switch(nombre)
@@ -290,14 +329,14 @@ public class Game : MonoBehaviour
                             break;
                     }
 
-                }               
-                
+                }
+
             }
         }
     }
 
 
-    
+
     private bool probability()
     {
         int taille = width * height;
@@ -352,7 +391,7 @@ public class Game : MonoBehaviour
             GenerateNumbers();
             // GenerateBombs(Cell cell);
         }
-        
+
 
     }
 
