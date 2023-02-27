@@ -106,7 +106,7 @@ public class Game : MonoBehaviour
 
                 if (IsInBounds(new Vector3Int(x, y, 0)))
                 {
-                    if (GetCellFromPosition[x, y].type == Cell.Type.Bomb)
+                    if (GetCellFromPosition(new Vector3Int(x, y, 0)).type == Cell.Type.Bomb)
                     {
                         bombCount++;
                     }

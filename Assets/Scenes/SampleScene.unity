@@ -271,6 +271,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: effd5068674654749b3ca9753afcdb67, type: 2}
     - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
+      propertyPath: TileNumber6
+      value: 
+      objectReference: {fileID: 11400000, guid: 5d05c8e45fd2b4145aece4d7d81f951a, type: 2}
+    - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
+      propertyPath: TileNumber7
+      value: 
+      objectReference: {fileID: 11400000, guid: 740b9ee8008071c48a39c4b8f43fa6b8, type: 2}
+    - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
+      propertyPath: TileNumber8
+      value: 
+      objectReference: {fileID: 11400000, guid: 71284f51638cb6043ad88c74ecc8cdc3, type: 2}
+    - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: TileUnknown
       value: 
       objectReference: {fileID: 11400000, guid: 0f26794fe2195904a9c052928da1313c, type: 2}

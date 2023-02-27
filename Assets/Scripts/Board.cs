@@ -21,6 +21,9 @@ public class Board : MonoBehaviour
     public Tile TileNumber3;
     public Tile TileNumber4;
     public Tile TileNumber5;
+    public Tile TileNumber6;
+    public Tile TileNumber7;
+    public Tile TileNumber8;
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -119,11 +122,17 @@ public class Board : MonoBehaviour
                 return TileNumber4;
             case 5:
                 return TileNumber5;
+            case 6:
+                return TileNumber6;
+            case 7:
+                return TileNumber7;
+            case 8: 
+                return TileNumber8;
             default:
                 return TileNumber;
         }
     }
-    
+
     /// <summary>
     /// Change the tile at a given position with the given tile.
     /// </summary>
