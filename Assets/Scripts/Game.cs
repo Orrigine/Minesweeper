@@ -66,7 +66,7 @@ public class Game : MonoBehaviour
             Debug.LogWarning("mouse in world: " + mouseInWorld);
         }*/
 
-        HandleFirstCLick();
+        HandleFirstClick();
 
 
         if (Input.GetMouseButtonDown(0))
@@ -397,7 +397,7 @@ public class Game : MonoBehaviour
     }
 
 
-    private void HandleFirstCLick()
+    private void HandleFirstClick()
     {
         if (Input.GetMouseButtonDown(0) && gameStarted == false)
         {
