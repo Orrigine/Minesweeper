@@ -460,6 +460,8 @@ public class Game : MonoBehaviour
             GenerateBombs();
             GenerateNumbers();
         }
+
+
     }
 
     /// <summary>
