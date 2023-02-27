@@ -189,36 +189,36 @@ public class Game : MonoBehaviour
             }
             else if (GetCellFromPosition(poscell).secretTile == Cell.Type.Number)
             {
-                int nombre = GetCellFromPosition(poscell).number;
-                if (nombre == 1)
+                int number = GetCellFromPosition(poscell).number;
+                if (number == 1)
                 {
                     board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber1);
                 }
-                if (nombre == 2)
+                if (number == 2)
                 {
                     board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber2);
                 }
-                if (nombre == 3)
+                if (number == 3)
                 {
                     board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber3);
                 }
-                if (nombre == 4)
+                if (number == 4)
                 {
                     board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber4);
                 }
-                if (nombre == 5)
+                if (number == 5)
                 {
                     board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber5);
                 }
-                if (nombre == 6)
+                if (number == 6)
                 {
                     board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber6);
                 }
-                if (nombre == 7)
+                if (number == 7)
                 {
                     board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber7);
                 }
-                if (nombre == 8)
+                if (number == 8)
                 {
                     board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber8);
                 }
