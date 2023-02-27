@@ -14,10 +14,7 @@ public class CaseMine : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(m_event == null)
-        {
-            m_event = new UnityEvent();
-        }
+        m_event ??= new UnityEvent();
     }
 
     // Update is called once per frame
