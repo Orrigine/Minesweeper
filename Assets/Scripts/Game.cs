@@ -18,7 +18,7 @@ public class Game : MonoBehaviour
     UnityEvent m_event;
     public float distanceFromCamera = 10;
     public Vector3 mouseInWorld = new Vector3();
-
+    public int difficulty = 4;
 
 
     /// <summary>
@@ -160,7 +160,7 @@ public class Game : MonoBehaviour
     /// </summary>
     private void GenerateBombs()
     {
-        int bomb = width*height/4;
+        int bomb = width*height/ difficulty;
         while (bomb>0)
         {
             for (int h = 0; h < height; h++)
