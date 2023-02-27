@@ -14,7 +14,7 @@ public class Game : MonoBehaviour
     [SerializeField] private int width = 0;
     [SerializeField] private int height = 0;
 
-    
+
     [SerializeField] private Difficulty? currentDifficulty = null;
     // private readonly bool gameOver = false;
     // private readonly bool gameWon = false;
@@ -45,8 +45,8 @@ public class Game : MonoBehaviour
     /// </summary>
     private void Start()
     {
-      m_event ??= new UnityEvent();
-        currentDifficulty = Difficulty.Hard;
+        m_event ??= new UnityEvent();
+        currentDifficulty = Difficulty.Easy;
         SetDifficulty();
         NewGame();
     }
@@ -78,7 +78,7 @@ public class Game : MonoBehaviour
                 Vector3Int poscell = new((int)mouseInWorld.x, (int)mouseInWorld.y, 0);
                 /**/
                 RevealTile(poscell);
-                
+
             }
         }
         else if (Input.GetMouseButtonDown(1))
@@ -97,7 +97,7 @@ public class Game : MonoBehaviour
                     {
                         ModifyCell(true, 1, poscell);
                         board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileFlag);
-                    }else if (GetCellFromPosition(poscell).flagged == true)
+                    } else if (GetCellFromPosition(poscell).flagged == true)
                     {
                         ModifyCell(false, 1, poscell);
                         board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileUnknown);
@@ -160,7 +160,7 @@ public class Game : MonoBehaviour
     /// </summary>
     private void SetCameraPosition()
     {
-        Camera.main.transform.position = new Vector3((int)(width*2.56f)*0.5f , (int)(height*2.56f)*0.5f, -30);
+        Camera.main.transform.position = new Vector3((int)(width * 2.56f) * 0.5f, (int)(height * 2.56f) * 0.5f, -30);
     }
 
     /// <summary>
@@ -169,7 +169,7 @@ public class Game : MonoBehaviour
     /// </summary>
     private void SetCameraSize()
     {
-        Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, width + (int)(width*0.3f));
+        Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, width + (int)(width * 0.3f));
     }
 
     private void RevealTile(Vector3Int poscell)
@@ -180,6 +180,7 @@ public class Game : MonoBehaviour
             if (GetCellFromPosition(poscell).secretTile == Cell.Type.Empty)
             {
                 board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileRevealed);
+                DestroyEmptyCase(poscell);
             }
             else if (GetCellFromPosition(poscell).secretTile == Cell.Type.Bomb)
             {
@@ -221,7 +222,6 @@ public class Game : MonoBehaviour
                 {
                     board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber8);
                 }
-                Debug.LogWarning("Macron explosion");
             }
 
         }
@@ -252,36 +252,21 @@ public class Game : MonoBehaviour
     }
 
 
-    private void DestroyEmptyCase( Vector3Int position)
+    private void DestroyEmptyCase(Vector3Int position)
     {
-
-        if (GetCellFromPosition(new Vector3Int(position.x - 1, position.y - 1, 0)).secretTile == Cell.Type.Empty) {
-            if(GetCellFromPosition(position.x-1, position.y-1,0).revealed == false ){
-
+        for (int loop = 0; loop < 9; loop++)
+        {
+            if (GetCellFromPosition(vect).secretTile == Cell.Type.Empty)
+            {
+                if (GetCellFromPosition(vect).revealed == false)
+                {
+                    RevealTile(vect);
+                    DestroyEmptyCase(vect);
+                }
             }
         }
-        if (GetCellFromPosition(new Vector3Int(position.x - 1, position.y, 0)).secretTile == Cell.Type.Empty) {
-        
-        }
-        if (GetCellFromPosition(new Vector3Int(position.x - 1, position.y + 1, 0)).secretTile == Cell.Type.Empty) { 
-        
-        }
-        if (GetCellFromPosition(new Vector3Int(position.x, position.y - 1, 0)).secretTile == Cell.Type.Empty) { 
-        
-        }
-        if (GetCellFromPosition(new Vector3Int(position.x, position.y + 1, 0)).secretTile == Cell.Type.Empty) { 
-        
-        }
-        if (GetCellFromPosition(new Vector3Int(position.x + 1, position.y - 1, 0)).secretTile == Cell.Type.Empty) {
-        
-        }
-        if (GetCellFromPosition(new Vector3Int(position.x + 1, position.y, 0)).secretTile == Cell.Type.Empty) { 
-        
-        }
-        if (GetCellFromPosition(new Vector3Int(position.x + 1, position.y + 1, 0)).secretTile == Cell.Type.Empty) { 
-        
-        }
     }
+
 
 
     /// <summary>
