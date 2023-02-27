@@ -51,13 +51,12 @@ public class Game : MonoBehaviour
         mouseInWorld.x = (float)(mouseInWorld.x / 2.56);
         mouseInWorld.y = (float)(mouseInWorld.y / 2.56);
 
-
         /*if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("posx:" + (int)mouseInWorld.x + "\n posy:" + (int)mouseInWorld.y + "\n posz: " + (int)mouseInWorld.z);
             Debug.LogWarning("mouse in world: " + mouseInWorld);
         }*/
-        
+
         HandleFirstCLick();
          
         
@@ -134,6 +133,7 @@ public class Game : MonoBehaviour
     /// </summary>
     private void GenerateTiles()
     {
+
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
@@ -161,20 +161,22 @@ public class Game : MonoBehaviour
     private void GenerateBombs()
     {
         int bomb = width*height/4;
-
-        while(bomb>0)
+        while (bomb>0)
         {
             for (int h = 0; h < height; h++)
             {
                 for (int w = 0; w < width; w++)
                 {
-                    if(bomb > 0)
+                    if (!((int)mouseInWorld.x == w && (int)mouseInWorld.y == h))
                     {
-                        if (probability())
+                        if (bomb > 0)
                         {
-                            tab[h, w].secretTile = Cell.Type.Bomb;
-                            Debug.Log("bomb at: " + h + " , " + w);
-                            bomb--;
+                            if (probability())
+                            {
+                                tab[w, h].secretTile = Cell.Type.Bomb;
+                                //Debug.Log("bomb at: " + h + " , " + w);
+                                bomb--;
+                            }
                         }
                     }
                 }
@@ -186,8 +188,9 @@ public class Game : MonoBehaviour
 
     private bool probability()
     {
-        int randomNumber = Random.Range(0, 100);
-        if (randomNumber <= 40)
+        int taille = width * height;
+        int randomNumber = Random.Range(0, taille);
+        if (randomNumber <= 10)
         {
             return true;
         }
