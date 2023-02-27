@@ -6,8 +6,8 @@ public class Game : MonoBehaviour
 {
     [SerializeField] private Board board;
     [SerializeField] private Cell[,] tab;
-    [SerializeField]  int width = 0;
-    [SerializeField]  int height = 0;
+    [SerializeField] private int width = 0;
+    [SerializeField] private int height = 0;
     
     [SerializeField] private Difficulty? currentDifficulty = null;
     // private readonly bool gameOver = false;
@@ -35,7 +35,7 @@ public class Game : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        currentDifficulty = Difficulty.Hard;
+        currentDifficulty = Difficulty.Madness;
         SetDifficulty();
         NewGame();
     }
@@ -75,11 +75,28 @@ public class Game : MonoBehaviour
         tab = new Cell[width, height];
         GenerateTiles();
         board.Draw(tab);
-        Camera.main.transform.position = new Vector3((width*0.5f) + 7, (height*0.5f) + 8, -30);
-        
-        // set camera size to fit the board
-        Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, width + height );
-        // Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, height );
+        SetCameraPosition();
+        SetCameraSize();
+    }
+
+
+    /// <summary>
+    /// Set the camera position. 
+    /// 0.5f because the camera is in the center of the board.
+    /// 2.56f because the size of the tile is 2.56f.
+    /// </summary>
+    private void SetCameraPosition()
+    {
+        Camera.main.transform.position = new Vector3((int)(width*2.56f)*0.5f , (int)(height*2.56f)*0.5f, -30);
+    }
+
+    /// <summary>
+    /// Set the camera size.
+    /// Scaled to the width and height of the board.
+    /// </summary>
+    private void SetCameraSize()
+    {
+        Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, width + (int)(width*0.3f));
     }
 
     /// <summary>
