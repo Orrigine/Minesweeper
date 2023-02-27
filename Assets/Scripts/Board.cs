@@ -82,31 +82,21 @@ public class Board : MonoBehaviour
     /// <returns>The type of the revealed cell</returns>
     private Tile GetRevealedTile(Cell cell)
     {
-        switch (cell.type)
+        return cell.type switch
         {
-            case Cell.Type.Empty:
-                return TileEmpty;
-            case Cell.Type.Bomb:
-                return TileBomb;
-            case Cell.Type.Number:
-                switch (cell.number)
-                {
-                    case 1:
-                        return TileNumber1;
-                    case 2:
-                        return TileNumber2;
-                    case 3:
-                        return TileNumber3;
-                    case 4:
-                        return TileNumber4;
-                    case 5:
-                        return TileNumber5;
-                    default:
-                        return TileNumber;
-                }
-            default:
-                return TileUnknown;
-        }
+            Cell.Type.Empty => TileEmpty,
+            Cell.Type.Bomb => TileBomb,
+            Cell.Type.Number => cell.number switch
+            {
+                1 => TileNumber1,
+                2 => TileNumber2,
+                3 => TileNumber3,
+                4 => TileNumber4,
+                5 => TileNumber5,
+                _ => TileNumber,
+            },
+            _ => TileUnknown,
+        };
     }
     /// <summary>
     /// Get the number of bombs around the tile.
@@ -115,27 +105,18 @@ public class Board : MonoBehaviour
     /// <returns>The tile type with the number of bombs around it</returns>
     private Tile GetNumberTile(int number)
     {
-        switch (number)
+        return number switch
         {
-            case 1:
-                return TileNumber1;
-            case 2:
-                return TileNumber2;
-            case 3:
-                return TileNumber3;
-            case 4:
-                return TileNumber4;
-            case 5:
-                return TileNumber5;
-            case 6:
-                return TileNumber6;
-            case 7:
-                return TileNumber7;
-            case 8: 
-                return TileNumber8;
-            default:
-                return TileNumber;
-        }
+            1 => TileNumber1,
+            2 => TileNumber2,
+            3 => TileNumber3,
+            4 => TileNumber4,
+            5 => TileNumber5,
+            6 => TileNumber6,
+            7 => TileNumber7,
+            8 => TileNumber8,
+            _ => TileNumber,
+        };
     }
 
     /// <summary>

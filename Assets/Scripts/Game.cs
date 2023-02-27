@@ -14,6 +14,7 @@ public class Game : MonoBehaviour
     [SerializeField] private int width = 0;
     [SerializeField] private int height = 0;
 
+    
     [SerializeField] private Difficulty? currentDifficulty = null;
     // private readonly bool gameOver = false;
     // private readonly bool gameWon = false;
@@ -28,7 +29,7 @@ public class Game : MonoBehaviour
     }
     UnityEvent m_event;
     public float distanceFromCamera = 10;
-    public Vector3 mouseInWorld = new Vector3();
+    public Vector3 mouseInWorld = new();
     public int difficulty = 4;
 
     /// <summary>
@@ -44,10 +45,7 @@ public class Game : MonoBehaviour
     /// </summary>
     private void Start()
     {
-      if (m_event == null)
-      {
-          m_event = new UnityEvent();
-      }
+      m_event ??= new UnityEvent();
         currentDifficulty = Difficulty.Hard;
         SetDifficulty();
         NewGame();
@@ -78,7 +76,7 @@ public class Game : MonoBehaviour
             {
 
                 /**/
-                Vector3Int poscell = new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0);
+                Vector3Int poscell = new((int)mouseInWorld.x, (int)mouseInWorld.y, 0);
 
                 /**/
 
@@ -141,7 +139,7 @@ public class Game : MonoBehaviour
             {
 
                 /**/
-                Vector3Int poscell = new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0);
+                Vector3Int poscell = new((int)mouseInWorld.x, (int)mouseInWorld.y, 0);
                 /**/
 
 
@@ -198,11 +196,28 @@ public class Game : MonoBehaviour
         tab = new Cell[width, height];
         GenerateTiles();
         board.Draw(tab);
-        Camera.main.transform.position = new Vector3((width*0.5f) + 7, (height*0.5f) + 8, -30);
+        SetCameraPosition();
+        SetCameraSize();
+    }
 
-        // set camera size to fit the board
-        Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, width + height );
-        // Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, height );
+
+    /// <summary>
+    /// Set the camera position. 
+    /// 0.5f because the camera is in the center of the board.
+    /// 2.56f because the size of the tile is 2.56f.
+    /// </summary>
+    private void SetCameraPosition()
+    {
+        Camera.main.transform.position = new Vector3((int)(width*2.56f)*0.5f , (int)(height*2.56f)*0.5f, -30);
+    }
+
+    /// <summary>
+    /// Set the camera size.
+    /// Scaled to the width and height of the board.
+    /// </summary>
+    private void SetCameraSize()
+    {
+        Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, width + (int)(width*0.3f));
     }
 
     /// <summary>
@@ -248,7 +263,7 @@ public class Game : MonoBehaviour
                     {
                         if (bomb > 0)
                         {
-                            if (probability())
+                            if (Probability())
                             {
                                 tab[w, h].secretTile = Cell.Type.Bomb;
                                 //Debug.Log("bomb at: " + h + " , " + w);
@@ -266,7 +281,7 @@ public class Game : MonoBehaviour
     private int LookAround(int x, int y)
     {
         int numberBombAround = 0;
-        Vector3Int position = new Vector3Int(x, y, 0);
+        Vector3Int position = new(x, y, 0);
         if (GetCellFromPosition(new Vector3Int(position.x - 1, position.y - 1, 0)).secretTile == Cell.Type.Bomb) { numberBombAround++; }
         if (GetCellFromPosition(new Vector3Int(position.x - 1, position.y, 0)).secretTile == Cell.Type.Bomb) { numberBombAround++; }
         if (GetCellFromPosition(new Vector3Int(position.x - 1, position.y + 1, 0)).secretTile == Cell.Type.Bomb) { numberBombAround++; }
@@ -337,7 +352,7 @@ public class Game : MonoBehaviour
 
 
 
-    private bool probability()
+    private bool Probability()
     {
         int taille = width * height;
         int randomNumber = Random.Range(0, taille);
