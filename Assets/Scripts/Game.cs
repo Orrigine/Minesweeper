@@ -13,6 +13,7 @@ public class Game : MonoBehaviour
     [SerializeField] private int width = 10;
     [SerializeField] private int height = 10;
 
+    private bool gameStarted =false;
 
     UnityEvent m_event;
     public float distanceFromCamera = 10;
@@ -44,7 +45,6 @@ public class Game : MonoBehaviour
     {
 
 
-
         Vector3 mouseInScreen = Input.mousePosition;
         mouseInScreen.z = distanceFromCamera;
         mouseInWorld = Camera.main.ScreenToWorldPoint(mouseInScreen);
@@ -57,9 +57,13 @@ public class Game : MonoBehaviour
             Debug.Log("posx:" + (int)mouseInWorld.x + "\n posy:" + (int)mouseInWorld.y + "\n posz: " + (int)mouseInWorld.z);
             Debug.LogWarning("mouse in world: " + mouseInWorld);
         }*/
-
+        
+        HandleFirstCLick();
+         
+        
         if (Input.GetMouseButtonDown(0))
         {
+            
             if (mouseInWorld.x <= width && mouseInWorld.x > 0 && mouseInWorld.y <= width && mouseInWorld.y > 0)
             {
 
@@ -67,7 +71,7 @@ public class Game : MonoBehaviour
                 Vector3Int poscell = new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0);
                 
                 /**/
-
+               
                 if (GetCellFromPosition(poscell).flagged == false && GetCellFromPosition(poscell).revealed == false)
                 {
                     ModifyCell(true, 0,poscell);
@@ -75,9 +79,10 @@ public class Game : MonoBehaviour
                     {
                         board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileRevealed);
                     }
-                    if (GetCellFromPosition(poscell).type == Cell.Type.Bomb)
+                    else if (GetCellFromPosition(poscell).secretTile == Cell.Type.Bomb)
                     {
                         board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileBomb);
+                        Debug.LogWarning("Macron explosion");
                     }
 
                 }
@@ -153,17 +158,40 @@ public class Game : MonoBehaviour
     /// <summary>
     /// Generate the bombs.
     /// </summary>
-    private void GenerateBombs(Cell cell)
+    private void GenerateBombs()
     {
         int bomb = width*height/4;
-        for (int h =0 ; h <height; h++)
+
+        while(bomb>0)
         {
-            for (int w = 0; w < width; w++)
+            for (int h = 0; h < height; h++)
             {
-                tab[h, w].secretTile = Cell.Type.Bomb;
+                for (int w = 0; w < width; w++)
+                {
+                    if(bomb > 0)
+                    {
+                        if (probability())
+                        {
+                            tab[h, w].secretTile = Cell.Type.Bomb;
+                            Debug.Log("bomb at: " + h + " , " + w);
+                            bomb--;
+                        }
+                    }
+                }
             }
+
         }
 
+    }
+
+    private bool probability()
+    {
+        int randomNumber = Random.Range(0, 100);
+        if (randomNumber <= 40)
+        {
+            return true;
+        }
+        return false;
     }
 
     /// <summary>
@@ -202,11 +230,14 @@ public class Game : MonoBehaviour
 
     private void HandleFirstCLick()
     {
-        /*if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && gameStarted == false)
         {
             gameStarted = true;
+            GenerateBombs();
             // GenerateBombs(Cell cell);
-        }*/
+        }
+        
+
     }
 
 
