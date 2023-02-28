@@ -32,6 +32,7 @@ public class Game : MonoBehaviour
     public Vector3 mouseInWorld = new();
     private int difficulty;
     Vector3Int vect;
+
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
@@ -46,10 +47,25 @@ public class Game : MonoBehaviour
     private void Start()
     {
         m_event ??= new UnityEvent();
-        currentDifficulty = Difficulty.Easy;
+        currentDifficulty = Difficulty.Hard;
         SetDifficulty();
         NewGame();
     }
+
+    /// <summary>
+    /// Create a new game according width and height.
+    /// </summary>
+    private void NewGame()
+    {
+        tab = new Cell[width, height];
+        GenerateTiles();
+        board.Draw(tab);
+        SetCameraPosition();
+        SetCameraSize();
+    }
+    /// <summary>
+    /// Update function from Unity.
+    /// </summary>
     void Update()
     {
 
@@ -125,33 +141,21 @@ public class Game : MonoBehaviour
                 difficulty = 5;
                 break;
             case Difficulty.Medium:
-                width = 25;
-                height = 25;
+                width = 20;
+                height = 20;
                 difficulty = 4;
                 break;
             case Difficulty.Hard:
-                width = 40;
-                height = 40;
+                width = 30;
+                height = 30;
                 difficulty = 3;
                 break;
             case Difficulty.Madness:
-                width = 69;
-                height = 69;
+                width = 50;
+                height = 50;
                 difficulty = 2;
                 break;
         }
-    }
-
-    /// <summary>
-    /// Create a new game according width and height.
-    /// </summary>
-    private void NewGame()
-    {
-        tab = new Cell[width, height];
-        GenerateTiles();
-        board.Draw(tab);
-        SetCameraPosition();
-        SetCameraSize();
     }
 
 
@@ -174,11 +178,15 @@ public class Game : MonoBehaviour
         Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, width + (int)(width * 0.3f));
     }
 
+    /// <summary>
+    /// Reveal the tiles.
+    /// </summary>
+    /// <param name="poscell">The position of the tile.</param>
     private void RevealTile(Vector3Int poscell)
     {
         if (GetCellFromPosition(poscell).flagged == false && GetCellFromPosition(poscell).revealed == false)
         {
-            
+
             ModifyCell(true, 0, poscell);
             if (GetCellFromPosition(poscell).secretTile == Cell.Type.Empty)
             {
@@ -188,7 +196,7 @@ public class Game : MonoBehaviour
             else if (GetCellFromPosition(poscell).secretTile == Cell.Type.Bomb)
             {
                 board.ChangeTile(new Vector3Int(poscell.x, poscell.y, 0), board.TileBomb);
-                
+
             }
             else if (GetCellFromPosition(poscell).secretTile == Cell.Type.Number)
             {
@@ -254,7 +262,10 @@ public class Game : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Destroy the empty cases.
+    /// </summary>
+    /// <param name="position">The position where we destroy</param>
     private void DestroyEmptyCase(Vector3Int position)
     {
 
@@ -465,10 +476,10 @@ public class Game : MonoBehaviour
     /// Handle the first click and call GenerateBombs after first click.
     /// </summary>
     private void HandleFirstClick()
-    { 
-            gameStarted = true;
-            GenerateBombs();
-            GenerateNumbers();
+    {
+        gameStarted = true;
+        GenerateBombs();
+        GenerateNumbers();
     }
 
     /// <summary>
