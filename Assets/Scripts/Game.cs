@@ -22,6 +22,7 @@ public class Game : MonoBehaviour
     private bool gameStarted = false;
     private bool radarUse = false;
     private Vector3Int radarpos;
+    private int nbrUseRadar;
 
     private enum Difficulty
     {
@@ -50,7 +51,7 @@ public class Game : MonoBehaviour
     private void Start()
     {
         m_event ??= new UnityEvent();
-        currentDifficulty = Difficulty.Medium;
+        currentDifficulty = Difficulty.Easy;
         SetDifficulty();
         NewGame();
     }
@@ -88,9 +89,9 @@ public class Game : MonoBehaviour
         {
             HandleFirstClick();
         }
-        if (Input.GetKeyDown(KeyCode.I) && gameStarted == true && radarUse==false)
+        if (Input.GetKeyDown(KeyCode.I) && gameStarted == true && radarUse==false && nbrUseRadar >0)
         {
-            Debug.Log("in");
+            nbrUseRadar--;
             Vector3Int poscell = new((int)mouseInWorld.x, (int)mouseInWorld.y, 0);
             Radar(poscell);
         }
@@ -153,21 +154,25 @@ public class Game : MonoBehaviour
                 width = 10;
                 height = 10;
                 difficulty = 5;
+                nbrUseRadar = 4;
                 break;
             case Difficulty.Medium:
                 width = 20;
                 height = 20;
                 difficulty = 4;
+                nbrUseRadar = 3;
                 break;
             case Difficulty.Hard:
                 width = 30;
                 height = 30;
                 difficulty = 3;
+                nbrUseRadar = 2;
                 break;
             case Difficulty.Madness:
                 width = 50;
                 height = 50;
                 difficulty = 2;
+                nbrUseRadar = 1;
                 break;
         }
     }
@@ -546,16 +551,25 @@ public class Game : MonoBehaviour
         return position.x >= 0 && position.x < width && position.y >= 0 && position.y < height;
     }
 
+
+    /// <summary>
+    /// check around the tile and reveal the bomb.
+    /// </summary>
+    /// <param name="position">The position to check</param>
+    /// <returns></returns>
     private void Radar(Vector3Int position)
     {
-        
+
         radarpos= position;
+        radarUse = true;
+
         for (int x = -1; x < 2; x++)
         {
             for (int y = -1; y < 2; y++)
             {
 
                 Vector3Int vect = new Vector3Int(position.x + x, position.y + y, 0);
+                
                 if (IsInBounds(vect))
                 {
                     if (GetCellFromPosition(vect).revealed == false)
@@ -565,14 +579,16 @@ public class Game : MonoBehaviour
                 }
             }
         }
-
-        radarUse = true;
-
     }
 
+
+    /// <summary>
+    /// Reveal if a tile is a bomb or another tile.
+    /// </summary>
+    /// <param name="position">The position to check</param>
+    /// <returns></returns>
     private void OpacityTile(Vector3Int position)
     {
-
         switch (GetCellFromPosition(position).secretTile)
         {
             case Cell.Type.Bomb:
@@ -585,13 +601,17 @@ public class Game : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// after use the radar hide the tile was not revealed  .
+    /// </summary>
+    /// <returns></returns>
     private void EndRadar()
     {
         for (int x = -1; x < 2; x++)
         {
             for (int y = -1; y < 2; y++)
             {
-
                 Vector3Int vect = new Vector3Int(radarpos.x + x, radarpos.y + y, 0);
                 if (IsInBounds(vect))
                 {
