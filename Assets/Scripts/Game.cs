@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using VSCodeEditor;
 using UnityEngine.UIElements;
 using System.Linq.Expressions;
+using System.Diagnostics.Tracing;
 
 public class Game : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class Game : MonoBehaviour
     // private readonly bool gameOver = false;
     // private readonly bool gameWon = false;
     private bool gameStarted = false;
+    private bool radarUse = false;
+    private Vector3Int radarpos;
 
     private enum Difficulty
     {
@@ -69,12 +72,23 @@ public class Game : MonoBehaviour
         {
             HandleFirstClick();
         }
-
+        if (Input.GetKeyDown(KeyCode.I) && gameStarted == true)
+        {
+            Debug.Log("in");
+            Vector3Int poscell = new((int)mouseInWorld.x, (int)mouseInWorld.y, 0);
+            Radar(poscell);
+        }
         if (Input.GetMouseButtonDown(0))
         {
-
+            
             if (mouseInWorld.x <= width && mouseInWorld.x > 0 && mouseInWorld.y <= width && mouseInWorld.y > 0)
             {
+                if (radarUse == true)
+                {
+                    radarUse = false;
+                    EndRadar();
+                }
+
                 /**/
                 Vector3Int poscell = new((int)mouseInWorld.x, (int)mouseInWorld.y, 0);
                 /**/
@@ -178,7 +192,7 @@ public class Game : MonoBehaviour
     {
         if (GetCellFromPosition(poscell).flagged == false && GetCellFromPosition(poscell).revealed == false)
         {
-            
+
             ModifyCell(true, 0, poscell);
             if (GetCellFromPosition(poscell).secretTile == Cell.Type.Empty)
             {
@@ -188,7 +202,7 @@ public class Game : MonoBehaviour
             else if (GetCellFromPosition(poscell).secretTile == Cell.Type.Bomb)
             {
                 board.ChangeTile(new Vector3Int(poscell.x, poscell.y, 0), board.TileBomb);
-                
+
             }
             else if (GetCellFromPosition(poscell).secretTile == Cell.Type.Number)
             {
@@ -465,10 +479,10 @@ public class Game : MonoBehaviour
     /// Handle the first click and call GenerateBombs after first click.
     /// </summary>
     private void HandleFirstClick()
-    { 
-            gameStarted = true;
-            GenerateBombs();
-            GenerateNumbers();
+    {
+        gameStarted = true;
+        GenerateBombs();
+        GenerateNumbers();
     }
 
     /// <summary>
@@ -519,5 +533,69 @@ public class Game : MonoBehaviour
     private bool IsInBounds(Vector3Int position)
     {
         return position.x >= 0 && position.x < width && position.y >= 0 && position.y < height;
+    }
+
+    private void Radar(Vector3Int position)
+    {
+        radarpos= position;
+        for (int x = -1; x < 2; x++)
+        {
+            for (int y = -1; y < 2; y++)
+            {
+
+                Vector3Int vect = new Vector3Int(position.x + x, position.y + y, 0);
+                if (IsInBounds(vect))
+                {
+                    if (GetCellFromPosition(vect).revealed == false)
+                    {
+                        OpacityTile(vect);
+                    }
+                }
+            }
+        }
+
+        radarUse = true;
+
+    }
+
+    private void OpacityTile(Vector3Int position)
+    {
+
+        switch (GetCellFromPosition(position).secretTile)
+        {
+            case Cell.Type.Bomb:
+                board.ChangeTile(new Vector3Int(position.x, position.y, 0), board.TileBomb);
+                break;
+            default:
+
+                board.ChangeTile(new Vector3Int(position.x, position.y, 0), board.TileEmpty);
+                break;
+        }
+    }
+
+    private void EndRadar()
+    {
+        for (int x = -1; x < 2; x++)
+        {
+            for (int y = -1; y < 2; y++)
+            {
+
+                Vector3Int vect = new Vector3Int(radarpos.x + x, radarpos.y + y, 0);
+                if (IsInBounds(vect))
+                {
+                    if (GetCellFromPosition(vect).revealed == false)
+                    {
+                        UnOpacityTile(vect);
+                    }
+                }
+            }
+        }
+
+        radarUse = true;
+    }
+
+    private void UnOpacityTile(Vector3Int position)
+    {
+        board.ChangeTile(new Vector3Int(position.x, position.y, 0), board.TileUnknown);
     }
 }
