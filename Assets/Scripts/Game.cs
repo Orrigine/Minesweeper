@@ -50,7 +50,7 @@ public class Game : MonoBehaviour
     private void Start()
     {
         m_event ??= new UnityEvent();
-        currentDifficulty = Difficulty.Hard;
+        currentDifficulty = Difficulty.Medium;
         SetDifficulty();
         NewGame();
     }
@@ -88,7 +88,7 @@ public class Game : MonoBehaviour
         {
             HandleFirstClick();
         }
-        if (Input.GetKeyDown(KeyCode.I) && gameStarted == true)
+        if (Input.GetKeyDown(KeyCode.I) && gameStarted == true && radarUse==false)
         {
             Debug.Log("in");
             Vector3Int poscell = new((int)mouseInWorld.x, (int)mouseInWorld.y, 0);
@@ -548,6 +548,7 @@ public class Game : MonoBehaviour
 
     private void Radar(Vector3Int position)
     {
+        
         radarpos= position;
         for (int x = -1; x < 2; x++)
         {
@@ -601,8 +602,6 @@ public class Game : MonoBehaviour
                 }
             }
         }
-
-        radarUse = true;
     }
 
     private void UnOpacityTile(Vector3Int position)
