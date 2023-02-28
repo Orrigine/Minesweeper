@@ -176,11 +176,13 @@ public class Game : MonoBehaviour
     {
         if (GetCellFromPosition(poscell).flagged == false && GetCellFromPosition(poscell).revealed == false)
         {
+            Debug.Log("in 1");
             ModifyCell(true, 0, poscell);
             if (GetCellFromPosition(poscell).secretTile == Cell.Type.Empty)
             {
                 board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileRevealed);
                 DestroyEmptyCase(poscell);
+                Debug.Log("pass in");
             }
             else if (GetCellFromPosition(poscell).secretTile == Cell.Type.Bomb)
             {
@@ -255,7 +257,7 @@ public class Game : MonoBehaviour
     private void DestroyEmptyCase(Vector3Int position)
     {
         
-        for (int loop = 0; loop < 9; loop++)
+        for (int loop = 0; loop < 4; loop++)
         {
 
             switch (loop) {
@@ -288,11 +290,13 @@ public class Game : MonoBehaviour
             }
             if (GetCellFromPosition(vect).secretTile == Cell.Type.Empty)
             {
-                if (GetCellFromPosition(vect).revealed == false)
-                {
+                /*if (GetCellFromPosition(vect).revealed == false)
+                {*/
                     RevealTile(vect);
+                    Debug.Log("reveal tile");
                     DestroyEmptyCase(vect);
-                }
+                    Debug.Log("destroy tile around");
+                //}
             }
         }
     }
