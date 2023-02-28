@@ -221,11 +221,11 @@ PrefabInstance:
     - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: TileBomb
       value: 
-      objectReference: {fileID: 11400000, guid: 910d12d368bc5714e83cafcac2b3336e, type: 2}
+      objectReference: {fileID: 11400000, guid: 7ab4c3fbc4c050c4f805037d6abb14e4, type: 2}
     - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: TileFlag
       value: 
-      objectReference: {fileID: 11400000, guid: 02304e0382e28cb438d9560c21e887b5, type: 2}
+      objectReference: {fileID: 11400000, guid: 1b4e282c315946a498bf20f7dca2fb72, type: 2}
     - target: {fileID: 1638343952322859174, guid: 55b725ea871220f4b9244285a105bfe0, type: 3}
       propertyPath: TileEmpty
       value: 
