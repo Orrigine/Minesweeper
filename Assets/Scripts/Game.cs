@@ -16,8 +16,8 @@ public class Game : MonoBehaviour
 
 
     [SerializeField] private Difficulty? currentDifficulty = null;
-    // private readonly bool gameOver = false;
-    // private readonly bool gameWon = false;
+    private bool gameOver = false;
+    private bool gameWon = false;
     private bool gameStarted = false;
 
     private enum Difficulty
@@ -47,7 +47,7 @@ public class Game : MonoBehaviour
     private void Start()
     {
         m_event ??= new UnityEvent();
-        currentDifficulty = Difficulty.Hard;
+        currentDifficulty = Difficulty.Easy;
         SetDifficulty();
         NewGame();
     }
@@ -114,6 +114,7 @@ public class Game : MonoBehaviour
                     {
                         ModifyCell(true, 1, poscell);
                         board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileFlag);
+                        CheckWin();
                     }
                     else if (GetCellFromPosition(poscell).flagged == true)
                     {
@@ -138,7 +139,7 @@ public class Game : MonoBehaviour
             case Difficulty.Easy:
                 width = 10;
                 height = 10;
-                difficulty = 5;
+                difficulty = 6;
                 break;
             case Difficulty.Medium:
                 width = 20;
@@ -196,7 +197,7 @@ public class Game : MonoBehaviour
             else if (GetCellFromPosition(poscell).secretTile == Cell.Type.Bomb)
             {
                 board.ChangeTile(new Vector3Int(poscell.x, poscell.y, 0), board.TileBomb);
-
+                Explode(GetCellFromPosition(poscell));
             }
             else if (GetCellFromPosition(poscell).secretTile == Cell.Type.Number)
             {
@@ -329,7 +330,6 @@ public class Game : MonoBehaviour
                             if (Probability())
                             {
                                 tab[w, h].secretTile = Cell.Type.Bomb;
-                                //Debug.Log("bomb at: " + h + " , " + w);
                                 bomb--;
                             }
                         }
@@ -444,27 +444,16 @@ public class Game : MonoBehaviour
     /// <param name="cellX">The x position of the cell</param>
     /// <param name="cellY">The y position of the cell</param>
     /// <returns>The number of bombs</returns>
-    private int CountBombs(int cellX, int cellY)
+    private int CountBombs()
     {
         int bombCount = 0;
-        for (int adjacentX = -1; adjacentX <= 1; adjacentX++)
+        for (int x = 0; x < width; x++)
         {
-            for (int adjacentY = -1; adjacentY <= 1; adjacentY++)
+            for (int y = -1; y < height; y++)
             {
-                if (adjacentX == cellX && adjacentY == cellY)
+                if (GetCellFromPosition(new Vector3Int(x, y, 0)).secretTile == Cell.Type.Bomb)
                 {
-                    continue;
-                }
-
-                int x = cellX + adjacentX;
-                int y = cellY + adjacentY;
-
-                if (IsInBounds(new Vector3Int(x, y, 0)))
-                {
-                    if (GetCellFromPosition(new Vector3Int(x, y, 0)).type == Cell.Type.Bomb)
-                    {
-                        bombCount++;
-                    }
+                    bombCount++;
                 }
             }
         }
@@ -530,5 +519,66 @@ public class Game : MonoBehaviour
     private bool IsInBounds(Vector3Int position)
     {
         return position.x >= 0 && position.x < width && position.y >= 0 && position.y < height;
+    }
+
+    /// <summary>
+    /// Make the bomb goes BOOOOOOOM!.
+    /// </summary>
+    /// <param name="cell">The cell that exploded</param>
+    private void Explode(Cell cell)
+    {
+
+        Debug.LogWarning("BOOM !");
+        gameOver = true;
+
+        for (int h = 0; h < height; h++)
+        {
+            for (int w = 0; w < width; w++)
+            {
+                if (tab[w, h].type == Cell.Type.Bomb)
+                {
+                    cell.revealed = true;
+                    tab[w, h] = cell;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Check if the player won.
+    /// </summary>
+    private void CheckWin()
+    {
+        Debug.LogWarning("CheckWin");
+        Debug.LogWarning("CountBombs : " + CountBombs());
+        Debug.LogWarning("GetRemainingUnknownTiles : " + GetRemainingUnknownTiles());
+        if (CountBombs() == GetRemainingUnknownTiles())
+        {
+            gameWon = true;
+            Debug.LogWarning("You won !");
+        }
+    }
+
+
+
+    /// <summary>
+    /// Get the remaining unknown tiles.
+    /// </summary>
+    /// <returns>The number of remaining unknown tiles</returns>
+    private int GetRemainingUnknownTiles()
+    {
+        int count = 0;
+        for (int h = 0; h < height; h++)
+        {
+            for (int w = 0; w < width; w++)
+            {
+                Cell cell = tab[w, h];
+                if (cell.revealed == false)
+                {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 }
