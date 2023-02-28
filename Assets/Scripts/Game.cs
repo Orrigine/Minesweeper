@@ -549,9 +549,9 @@ public class Game : MonoBehaviour
     /// </summary>
     private void CheckWin()
     {
-        Debug.LogWarning("CheckWin");
-        Debug.LogWarning("CountBombs : " + CountBombs());
-        Debug.LogWarning("GetRemainingUnknownTiles : " + GetRemainingUnknownTiles());
+        // Debug.LogWarning("CheckWin");
+        // Debug.LogWarning("CountBombs : " + CountBombs());
+        // Debug.LogWarning("GetRemainingUnknownTiles : " + GetRemainingUnknownTiles());
         if (CountBombs() == GetRemainingUnknownTiles())
         {
             gameWon = true;
