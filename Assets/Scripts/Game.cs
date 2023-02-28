@@ -65,9 +65,10 @@ public class Game : MonoBehaviour
             Debug.Log("posx:" + (int)mouseInWorld.x + "\n posy:" + (int)mouseInWorld.y + "\n posz: " + (int)mouseInWorld.z);
             Debug.LogWarning("mouse in world: " + mouseInWorld);
         }*/
-
-        HandleFirstClick();
-
+        if (Input.GetMouseButtonDown(0) && gameStarted == false)
+        {
+            HandleFirstClick();
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -97,7 +98,8 @@ public class Game : MonoBehaviour
                     {
                         ModifyCell(true, 1, poscell);
                         board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileFlag);
-                    } else if (GetCellFromPosition(poscell).flagged == true)
+                    }
+                    else if (GetCellFromPosition(poscell).flagged == true)
                     {
                         ModifyCell(false, 1, poscell);
                         board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileUnknown);
@@ -120,7 +122,7 @@ public class Game : MonoBehaviour
             case Difficulty.Easy:
                 width = 10;
                 height = 10;
-                difficulty = 4;
+                difficulty = 5;
                 break;
             case Difficulty.Medium:
                 width = 25;
@@ -176,53 +178,52 @@ public class Game : MonoBehaviour
     {
         if (GetCellFromPosition(poscell).flagged == false && GetCellFromPosition(poscell).revealed == false)
         {
-            Debug.Log("in 1");
+            
             ModifyCell(true, 0, poscell);
             if (GetCellFromPosition(poscell).secretTile == Cell.Type.Empty)
             {
-                board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileRevealed);
+                board.ChangeTile(new Vector3Int(poscell.x, poscell.y, 0), board.TileRevealed);
                 DestroyEmptyCase(poscell);
-                Debug.Log("pass in");
             }
             else if (GetCellFromPosition(poscell).secretTile == Cell.Type.Bomb)
             {
-                board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileBomb);
-                Debug.LogWarning("Macron explosion");
+                board.ChangeTile(new Vector3Int(poscell.x, poscell.y, 0), board.TileBomb);
+                
             }
             else if (GetCellFromPosition(poscell).secretTile == Cell.Type.Number)
             {
                 int number = GetCellFromPosition(poscell).number;
                 if (number == 1)
                 {
-                    board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber1);
+                    board.ChangeTile(new Vector3Int(poscell.x, poscell.y, 0), board.TileNumber1);
                 }
                 if (number == 2)
                 {
-                    board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber2);
+                    board.ChangeTile(new Vector3Int(poscell.x, poscell.y, 0), board.TileNumber2);
                 }
                 if (number == 3)
                 {
-                    board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber3);
+                    board.ChangeTile(new Vector3Int(poscell.x, poscell.y, 0), board.TileNumber3);
                 }
                 if (number == 4)
                 {
-                    board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber4);
+                    board.ChangeTile(new Vector3Int(poscell.x, poscell.y, 0), board.TileNumber4);
                 }
                 if (number == 5)
                 {
-                    board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber5);
+                    board.ChangeTile(new Vector3Int(poscell.x, poscell.y, 0), board.TileNumber5);
                 }
                 if (number == 6)
                 {
-                    board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber6);
+                    board.ChangeTile(new Vector3Int(poscell.x, poscell.y, 0), board.TileNumber6);
                 }
                 if (number == 7)
                 {
-                    board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber7);
+                    board.ChangeTile(new Vector3Int(poscell.x, poscell.y, 0), board.TileNumber7);
                 }
                 if (number == 8)
                 {
-                    board.ChangeTile(new Vector3Int((int)mouseInWorld.x, (int)mouseInWorld.y, 0), board.TileNumber8);
+                    board.ChangeTile(new Vector3Int(poscell.x, poscell.y, 0), board.TileNumber8);
                 }
             }
 
@@ -256,31 +257,32 @@ public class Game : MonoBehaviour
 
     private void DestroyEmptyCase(Vector3Int position)
     {
-        
-        for (int loop = 0; loop < 4; loop++)
+
+        for (int loop = 0; loop < 8; loop++)
         {
 
-            switch (loop) {
+            switch (loop)
+            {
                 case 0:
-                    vect = new Vector3Int(position.x-1, position.y-1, 0);
+                    vect = new Vector3Int(position.x - 1, position.y - 1, 0);
                     break;
                 case 1:
                     vect = new Vector3Int(position.x - 1, position.y, 0);
                     break;
                 case 2:
-                     vect = new Vector3Int(position.x - 1, position.y+1, 0);
+                    vect = new Vector3Int(position.x - 1, position.y + 1, 0);
                     break;
                 case 3:
-                     vect = new Vector3Int(position.x, position.y -1, 0);
+                    vect = new Vector3Int(position.x, position.y - 1, 0);
                     break;
                 case 4:
                     vect = new Vector3Int(position.x, position.y + 1, 0);
                     break;
                 case 5:
-                    vect = new Vector3Int(position.x+1, position.y-1, 0);
+                    vect = new Vector3Int(position.x + 1, position.y - 1, 0);
                     break;
                 case 6:
-                    vect = new Vector3Int(position.x +1, position.y, 0);
+                    vect = new Vector3Int(position.x + 1, position.y, 0);
                     break;
                 case 7:
                     vect = new Vector3Int(position.x + 1, position.y + 1, 0);
@@ -288,15 +290,9 @@ public class Game : MonoBehaviour
                 default:
                     break;
             }
-            if (GetCellFromPosition(vect).secretTile == Cell.Type.Empty)
+            if (GetCellFromPosition(vect).revealed == false && IsInBounds(vect))
             {
-                /*if (GetCellFromPosition(vect).revealed == false)
-                {*/
-                    RevealTile(vect);
-                    Debug.Log("reveal tile");
-                    DestroyEmptyCase(vect);
-                    Debug.Log("destroy tile around");
-                //}
+                RevealTile(vect);
             }
         }
     }
@@ -308,8 +304,8 @@ public class Game : MonoBehaviour
     /// </summary>
     private void GenerateBombs()
     {
-        int bomb = width*height/ difficulty;
-        while (bomb>0)
+        int bomb = width * height / difficulty;
+        while (bomb > 0)
         {
             for (int h = 0; h < height; h++)
             {
@@ -369,9 +365,9 @@ public class Game : MonoBehaviour
                 if (tab[w, h].secretTile != Cell.Type.Bomb)
                 {
 
-                    int nombre = LookAround(w,h);
+                    int nombre = LookAround(w, h);
 
-                    switch(nombre)
+                    switch (nombre)
                     {
                         case 1:
                             tab[w, h].secretTile = Cell.Type.Number;
@@ -444,7 +440,7 @@ public class Game : MonoBehaviour
         {
             for (int adjacentY = -1; adjacentY <= 1; adjacentY++)
             {
-                if(adjacentX == cellX && adjacentY == cellY)
+                if (adjacentX == cellX && adjacentY == cellY)
                 {
                     continue;
                 }
@@ -469,15 +465,10 @@ public class Game : MonoBehaviour
     /// Handle the first click and call GenerateBombs after first click.
     /// </summary>
     private void HandleFirstClick()
-    {
-        if (Input.GetMouseButtonDown(0) && gameStarted == false)
-        {
+    { 
             gameStarted = true;
             GenerateBombs();
             GenerateNumbers();
-        }
-
-
     }
 
     /// <summary>
@@ -488,7 +479,8 @@ public class Game : MonoBehaviour
     /// <param name="position">The position of the cell</param>
     private void ModifyCell(bool value, int type, Vector3Int position)
     {
-        if(IsInBounds(position)){
+        if (IsInBounds(position))
+        {
             if (type == 0)
             {
                 tab[position.x, position.y].revealed = value;
