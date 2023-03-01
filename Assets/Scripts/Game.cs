@@ -36,10 +36,6 @@ public class Game : MonoBehaviour
     public Vector3 mouseInWorld = new();
     private int difficulty;
     Vector3Int vect;
-
-    // bool canZoom;
-    // bool isMoving;
-    // float zoom;
     Vector3 newPosition;
 
     /// <summary>
