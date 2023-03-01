@@ -37,6 +37,11 @@ public class Game : MonoBehaviour
     private int difficulty;
     Vector3Int vect;
 
+    // bool canZoom;
+    // bool isMoving;
+    // float zoom;
+    Vector3 newPosition;
+
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
@@ -51,7 +56,7 @@ public class Game : MonoBehaviour
     private void Start()
     {
         m_event ??= new UnityEvent();
-        currentDifficulty = Difficulty.Easy;
+        currentDifficulty = Difficulty.Madness;
         SetDifficulty();
         NewGame();
     }
@@ -67,6 +72,8 @@ public class Game : MonoBehaviour
         SetCameraPosition();
         SetCameraSize();
     }
+
+    // Create Zoom function using mousepos in world
     /// <summary>
     /// Update function from Unity.
     /// </summary>
@@ -85,6 +92,7 @@ public class Game : MonoBehaviour
             Debug.Log("posx:" + (int)mouseInWorld.x + "\n posy:" + (int)mouseInWorld.y + "\n posz: " + (int)mouseInWorld.z);
             Debug.LogWarning("mouse in world: " + mouseInWorld);
         }*/
+        HandleZoom();
         if (Input.GetMouseButtonDown(0) && gameStarted == false)
         {
             HandleFirstClick();
@@ -179,6 +187,56 @@ public class Game : MonoBehaviour
         }
     }
 
+    private void HandleZoom()
+    {
+
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        {
+            // zoom to mouse position
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 zoomPos = Camera.main.transform.position + ((mousePos - Camera.main.transform.position) * 0.1f);
+            Camera.main.transform.position = zoomPos;
+            Camera.main.orthographicSize -= 1;
+            
+
+            // Camera.main.orthographicSize -= 1;
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        {
+            // zoom to mouse position
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 zoomPos = Camera.main.transform.position + ((mousePos - Camera.main.transform.position) * 0.1f);
+            Camera.main.transform.position = zoomPos;
+            Camera.main.orthographicSize += 1;
+        }
+        // if (Input.GetAxis("Mouse ScrollWheel") > 0 && zoom > 9)
+        // {
+        //     zoom -= 1;
+        //     canZoom = true;
+        // }
+
+        // if (Input.GetAxis("Mouse ScrollWheel") < 0 && zoom < 101)
+        // {
+        //     zoom += 1;
+        //     canZoom = true;
+        // }
+
+        // if (canZoom == true)
+        // {
+        //     isMoving = true;
+        //     Camera.main.orthographicSize = zoom;
+        //     newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        // }
+        // if (isMoving == true)
+        // {
+        //     transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime);
+        // }
+
+        // if (transform.position == newPosition)
+        // {
+        //     isMoving = false;
+        // }
+    }
 
     /// <summary>
     /// Set the camera position.
@@ -479,6 +537,10 @@ public class Game : MonoBehaviour
         }
         return bombCount;
     }
+    // private int GetRemainingFlaggs()
+    // {
+    //     return CountBombs() - FlaggedBombs();
+    // }
 
 
     /// <summary>
