@@ -6,7 +6,8 @@ public class buttonHard : MonoBehaviour
 {
     public void HardMode()
     {
-        Debug.Log("Click on Easy");
+        Debug.Log("Click on Hard");
+        PlayerPrefs.SetInt("Difficulty", (int)Game.Difficulty.Hard);
         SceneManager.LoadScene("Scenes/GameScene");
     }
 }

@@ -15,8 +15,7 @@ public class Game : MonoBehaviour
     [SerializeField] private int width = 0;
     [SerializeField] private int height = 0;
 
-
-    [SerializeField] private Difficulty? currentDifficulty = null;
+    public Difficulty? currentDifficulty = null;
     private bool gameOver = false;
     private bool gameWon = false;
     private bool gameStarted = false;
@@ -24,7 +23,7 @@ public class Game : MonoBehaviour
     private Vector3Int radarpos;
     private int nbrUseRadar;
 
-    private enum Difficulty
+    public enum Difficulty
     {
         Easy,
         Medium,
@@ -52,7 +51,7 @@ public class Game : MonoBehaviour
     private void Start()
     {
         m_event ??= new UnityEvent();
-        currentDifficulty = Difficulty.Medium;
+        // currentDifficulty = Difficulty.Medium;
         SetDifficulty();
         NewGame();
     }
@@ -154,28 +153,32 @@ public class Game : MonoBehaviour
     /// </summary>
     private void SetDifficulty()
     {
-        switch (currentDifficulty)
+        switch (PlayerPrefs.GetInt("Difficulty", (int)Difficulty.Medium))
         {
-            case Difficulty.Easy:
+            case 0:
+                currentDifficulty = Difficulty.Easy;
                 width = 10;
                 height = 10;
                 difficulty = 6;
                 difficulty = 5;
                 nbrUseRadar = 4;
                 break;
-            case Difficulty.Medium:
+            case 1:
+                currentDifficulty = Difficulty.Medium;
                 width = 20;
                 height = 20;
                 difficulty = 4;
                 nbrUseRadar = 3;
                 break;
-            case Difficulty.Hard:
+            case 2:
+                currentDifficulty = Difficulty.Hard;
                 width = 30;
                 height = 30;
                 difficulty = 3;
                 nbrUseRadar = 2;
                 break;
-            case Difficulty.Madness:
+            case 3:
+                currentDifficulty = Difficulty.Madness;
                 width = 50;
                 height = 50;
                 difficulty = 2;
@@ -215,7 +218,7 @@ public class Game : MonoBehaviour
             Vector3 zoomPos = Camera.main.transform.position + ((mousePos - Camera.main.transform.position) * 0.1f);
             Camera.main.transform.position = zoomPos;
 
-            if (Camera.main.orthographicSize != maxZoom-1)
+            if (Camera.main.orthographicSize != maxZoom - 1)
                 Camera.main.orthographicSize += 1;
         }
     }
