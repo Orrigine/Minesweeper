@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using static UnityEngine.UI.Image;
 using UnityEngine.Events;
-using VSCodeEditor;
-using UnityEngine.UIElements;
-using System.Linq.Expressions;
-using System.Diagnostics.Tracing;
+using UnityEngine.SceneManagement;
+
 
 public class Game : MonoBehaviour
 {
@@ -618,10 +615,6 @@ public class Game : MonoBehaviour
     /// <param name="cell">The cell that exploded</param>
     private void Explode(Cell cell)
     {
-
-        Debug.LogWarning("BOOM !");
-        gameOver = true;
-
         for (int h = 0; h < height; h++)
         {
             for (int w = 0; w < width; w++)
@@ -633,6 +626,9 @@ public class Game : MonoBehaviour
                 }
             }
         }
+        Debug.LogWarning("BOOM !");
+        gameOver = true;
+        SceneManager.LoadScene("Menu/loseScene");
     }
 
     /// <summary>
@@ -676,6 +672,7 @@ public class Game : MonoBehaviour
         {
             gameWon = true;
             Debug.LogWarning("You won !");
+            SceneManager.LoadScene("Menu/winScene");
         }
     }
     /// <summary>

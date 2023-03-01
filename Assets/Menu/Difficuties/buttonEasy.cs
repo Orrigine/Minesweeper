@@ -6,7 +6,6 @@ public class buttonEasy : MonoBehaviour
 {
     public void EasyMode()
     {
-        Debug.Log("Click on Easy");
         PlayerPrefs.SetInt("Difficulty", (int)Game.Difficulty.Easy);
         SceneManager.LoadScene("Scenes/GameScene");
     }
