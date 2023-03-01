@@ -87,15 +87,13 @@ public class Game : MonoBehaviour
         mouseInWorld.x = (float)(mouseInWorld.x / 2.56);
         mouseInWorld.y = (float)(mouseInWorld.y / 2.56);
 
-        /*if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("posx:" + (int)mouseInWorld.x + "\n posy:" + (int)mouseInWorld.y + "\n posz: " + (int)mouseInWorld.z);
-            Debug.LogWarning("mouse in world: " + mouseInWorld);
-        }*/
         HandleZoom();
         if (Input.GetMouseButtonDown(0) && gameStarted == false)
         {
-            HandleFirstClick();
+            if (IsInBounds(mouseInWorld))
+            {
+                HandleFirstClick();
+            }
         }
         if (Input.GetKeyDown(KeyCode.I) && gameStarted == true && radarUse == false && nbrUseRadar > 0)
         {
@@ -197,7 +195,7 @@ public class Game : MonoBehaviour
             Vector3 zoomPos = Camera.main.transform.position + ((mousePos - Camera.main.transform.position) * 0.1f);
             Camera.main.transform.position = zoomPos;
             Camera.main.orthographicSize -= 1;
-            
+
 
             // Camera.main.orthographicSize -= 1;
         }
@@ -209,33 +207,6 @@ public class Game : MonoBehaviour
             Camera.main.transform.position = zoomPos;
             Camera.main.orthographicSize += 1;
         }
-        // if (Input.GetAxis("Mouse ScrollWheel") > 0 && zoom > 9)
-        // {
-        //     zoom -= 1;
-        //     canZoom = true;
-        // }
-
-        // if (Input.GetAxis("Mouse ScrollWheel") < 0 && zoom < 101)
-        // {
-        //     zoom += 1;
-        //     canZoom = true;
-        // }
-
-        // if (canZoom == true)
-        // {
-        //     isMoving = true;
-        //     Camera.main.orthographicSize = zoom;
-        //     newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        // }
-        // if (isMoving == true)
-        // {
-        //     transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime);
-        // }
-
-        // if (transform.position == newPosition)
-        // {
-        //     isMoving = false;
-        // }
     }
 
     /// <summary>
@@ -598,7 +569,7 @@ public class Game : MonoBehaviour
     /// </summary>
     /// <param name="position">The position to check</param>
     /// <returns>True if the position is in bounds</returns>
-    private bool IsInBounds(Vector3Int position)
+    private bool IsInBounds(Vector3 position)
     {
         return position.x >= 0 && position.x < width && position.y >= 0 && position.y < height;
     }
