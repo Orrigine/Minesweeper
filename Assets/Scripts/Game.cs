@@ -189,14 +189,21 @@ public class Game : MonoBehaviour
     /// </summary>
     private void HandleZoom()
     {
-
+        int maxZoom = 5;
         if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
             // zoom to mouse position
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 zoomPos = Camera.main.transform.position + ((mousePos - Camera.main.transform.position) * 0.1f);
             Camera.main.transform.position = zoomPos;
-            Camera.main.orthographicSize -= 1;
+
+            // increase to max zoom 
+            if (Camera.main.orthographicSize != maxZoom)
+            {
+                Camera.main.orthographicSize -= 1;
+            }
+
+
 
 
             // Camera.main.orthographicSize -= 1;
@@ -207,7 +214,9 @@ public class Game : MonoBehaviour
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 zoomPos = Camera.main.transform.position + ((mousePos - Camera.main.transform.position) * 0.1f);
             Camera.main.transform.position = zoomPos;
-            Camera.main.orthographicSize += 1;
+
+            if (Camera.main.orthographicSize != maxZoom-1)
+                Camera.main.orthographicSize += 1;
         }
     }
 
