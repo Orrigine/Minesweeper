@@ -87,7 +87,10 @@ public class Game : MonoBehaviour
         mouseInWorld.x = (float)(mouseInWorld.x / 2.56);
         mouseInWorld.y = (float)(mouseInWorld.y / 2.56);
 
+        // Moves
         HandleZoom();
+        HandleMove();
+
         if (Input.GetMouseButtonDown(0) && gameStarted == false)
         {
             if (IsInBounds(mouseInWorld))
@@ -116,7 +119,6 @@ public class Game : MonoBehaviour
                 Vector3Int poscell = new((int)mouseInWorld.x, (int)mouseInWorld.y, 0);
                 /**/
                 RevealTile(poscell);
-
             }
         }
         else if (Input.GetMouseButtonDown(1))
@@ -185,6 +187,9 @@ public class Game : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handle the zoom feature.
+    /// </summary>
     private void HandleZoom()
     {
 
@@ -206,6 +211,30 @@ public class Game : MonoBehaviour
             Vector3 zoomPos = Camera.main.transform.position + ((mousePos - Camera.main.transform.position) * 0.1f);
             Camera.main.transform.position = zoomPos;
             Camera.main.orthographicSize += 1;
+        }
+    }
+
+    /// <summary>
+    /// Handle the move feature with keys.
+    /// </summary>
+    private void HandleMove()
+    {
+        float offset = 0.1f;
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            Camera.main.transform.position += new Vector3(0, offset, 0);
+        }
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            Camera.main.transform.position += new Vector3(0, -offset, 0);
+        }
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            Camera.main.transform.position += new Vector3(-offset, 0, 0);
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            Camera.main.transform.position += new Vector3(offset, 0, 0);
         }
     }
 
