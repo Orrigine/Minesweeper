@@ -52,7 +52,7 @@ public class Game : MonoBehaviour
     private void Start()
     {
         m_event ??= new UnityEvent();
-        currentDifficulty = Difficulty.Madness;
+        currentDifficulty = Difficulty.Medium;
         SetDifficulty();
         NewGame();
     }
@@ -114,6 +114,7 @@ public class Game : MonoBehaviour
                 /**/
                 Vector3Int poscell = new((int)mouseInWorld.x, (int)mouseInWorld.y, 0);
                 /**/
+                ClickCleanAround(poscell);
                 RevealTile(poscell);
             }
         }
@@ -684,7 +685,64 @@ public class Game : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// if a reaveled tiled is clicked and revealed the tile around if name='VerifyBombFlaggedAround' is verified .
+    /// </summary>
+    /// <param name="position">The position to check</param>
+    /// <returns>The number of remaining unknown tiles</returns>
+    private void ClickCleanAround(Vector3Int position)
+    {
+        if (GetCellFromPosition(position).revealed == true)
+        {
+            if (VerifyBombFlaggedAround(position))
+            {
+                for (int x = -1; x < 2; x++)
+                {
+                    for (int y = -1; y < 2; y++)
+                    {
+                        Vector3Int vect = new Vector3Int(position.x + x, position.y + y, 0);
 
+                        if (IsInBounds(vect))
+                        {
+                            if (GetCellFromPosition(vect).revealed == false)
+                            {
+                                RevealTile(vect);
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    /// <summary>
+    /// check if number of flag is equal at the tile number in position.
+    /// </summary>
+    /// <param name="position">The position to check</param>
+    /// <returns>The number of remaining unknown tiles</returns>
+    private bool VerifyBombFlaggedAround(Vector3Int position)
+    {
+        int number = GetCellFromPosition(position).number;
+        int flagged = 0;
+        for (int x = -1; x < 2; x++)
+        {
+            for (int y = -1; y < 2; y++)
+            {
+                Vector3Int vect = new Vector3Int(position.x + x, position.y + y, 0);
+                if (IsInBounds(vect))
+                {
+
+                    if (GetCellFromPosition(vect).flagged == true)
+                    {
+                        flagged++;
+                    }
+
+                }
+            }
+        }
+        return number == flagged;
+    }
 
     /// <summary>
     /// Get the remaining unknown tiles.
