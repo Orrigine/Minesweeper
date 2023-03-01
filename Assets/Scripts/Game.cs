@@ -87,15 +87,16 @@ public class Game : MonoBehaviour
         mouseInWorld.x = (float)(mouseInWorld.x / 2.56);
         mouseInWorld.y = (float)(mouseInWorld.y / 2.56);
 
-        /*if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("posx:" + (int)mouseInWorld.x + "\n posy:" + (int)mouseInWorld.y + "\n posz: " + (int)mouseInWorld.z);
-            Debug.LogWarning("mouse in world: " + mouseInWorld);
-        }*/
+        // Moves
         HandleZoom();
+        HandleMove();
+
         if (Input.GetMouseButtonDown(0) && gameStarted == false)
         {
-            HandleFirstClick();
+            if (IsInBounds(mouseInWorld))
+            {
+                HandleFirstClick();
+            }
         }
         if (Input.GetKeyDown(KeyCode.I) && gameStarted == true && radarUse == false && nbrUseRadar > 0)
         {
@@ -119,7 +120,6 @@ public class Game : MonoBehaviour
                 /**/
                 ClickCleanAround(poscell);
                 RevealTile(poscell);
-
             }
         }
         else if (Input.GetMouseButtonDown(1))
@@ -188,6 +188,9 @@ public class Game : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handle the zoom feature.
+    /// </summary>
     private void HandleZoom()
     {
 
@@ -210,33 +213,30 @@ public class Game : MonoBehaviour
             Camera.main.transform.position = zoomPos;
             Camera.main.orthographicSize += 1;
         }
-        // if (Input.GetAxis("Mouse ScrollWheel") > 0 && zoom > 9)
-        // {
-        //     zoom -= 1;
-        //     canZoom = true;
-        // }
+    }
 
-        // if (Input.GetAxis("Mouse ScrollWheel") < 0 && zoom < 101)
-        // {
-        //     zoom += 1;
-        //     canZoom = true;
-        // }
-
-        // if (canZoom == true)
-        // {
-        //     isMoving = true;
-        //     Camera.main.orthographicSize = zoom;
-        //     newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        // }
-        // if (isMoving == true)
-        // {
-        //     transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime);
-        // }
-
-        // if (transform.position == newPosition)
-        // {
-        //     isMoving = false;
-        // }
+    /// <summary>
+    /// Handle the move feature with keys.
+    /// </summary>
+    private void HandleMove()
+    {
+        float offset = 0.1f;
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            Camera.main.transform.position += new Vector3(0, offset, 0);
+        }
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            Camera.main.transform.position += new Vector3(0, -offset, 0);
+        }
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            Camera.main.transform.position += new Vector3(-offset, 0, 0);
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            Camera.main.transform.position += new Vector3(offset, 0, 0);
+        }
     }
 
     /// <summary>
@@ -599,7 +599,7 @@ public class Game : MonoBehaviour
     /// </summary>
     /// <param name="position">The position to check</param>
     /// <returns>True if the position is in bounds</returns>
-    private bool IsInBounds(Vector3Int position)
+    private bool IsInBounds(Vector3 position)
     {
         return position.x >= 0 && position.x < width && position.y >= 0 && position.y < height;
     }
