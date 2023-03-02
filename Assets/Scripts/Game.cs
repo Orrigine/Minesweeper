@@ -18,7 +18,11 @@ public class Game : MonoBehaviour
     private bool gameStarted = false;
     private bool radarUse = false;
     private Vector3Int radarpos;
-    private int nbrUseRadar;
+    private int radarInitValue;
+    private int radarActualValue;
+    private int radarCountToGain;
+    private int numberTileRevealed = 0;
+    private bool canGainRadar = false;
 
     public enum Difficulty
     {
@@ -48,7 +52,6 @@ public class Game : MonoBehaviour
     private void Start()
     {
         m_event ??= new UnityEvent();
-        // currentDifficulty = Difficulty.Medium;
         SetDifficulty();
         NewGame();
     }
@@ -82,6 +85,7 @@ public class Game : MonoBehaviour
         HandleZoom();
         HandleMove();
 
+        // Handle First click to start the game
         if (Input.GetMouseButtonDown(0) && gameStarted == false)
         {
             if (IsInBounds(mouseInWorld))
@@ -89,12 +93,14 @@ public class Game : MonoBehaviour
                 HandleFirstClick();
             }
         }
-        if (Input.GetKeyDown(KeyCode.I) && gameStarted == true && radarUse == false && nbrUseRadar > 0)
+        // Usage of radar
+        if (Input.GetKeyDown(KeyCode.I) && gameStarted == true && radarUse == false && GetRadarCount() > 0)
         {
-            nbrUseRadar--;
             Vector3Int poscell = new((int)mouseInWorld.x, (int)mouseInWorld.y, 0);
+            radarActualValue--;
             Radar(poscell);
         }
+        // Reveal part
         if (Input.GetMouseButtonDown(0))
         {
             if (gameOver == true)
@@ -103,7 +109,6 @@ public class Game : MonoBehaviour
             }
             else if (mouseInWorld.x <= width && mouseInWorld.x > 0 && mouseInWorld.y <= width && mouseInWorld.y > 0)
             {
-
                 if (radarUse == true)
                 {
                     radarUse = false;
@@ -115,8 +120,16 @@ public class Game : MonoBehaviour
                 /**/
                 ClickCleanAround(poscell);
                 RevealTile(poscell);
+                if (canGainRadar == true)
+                {
+                    if (GetNumberTileRevealed() != 0 && GetNumberTileRevealed() % radarCountToGain == 0)
+                    {
+                        GainRadar();
+                    }
+                }
             }
         }
+        // Flag part
         else if (Input.GetMouseButtonDown(1))
         {
             if (mouseInWorld.x <= width && mouseInWorld.x > 0 && mouseInWorld.y <= width && mouseInWorld.y > 0)
@@ -145,6 +158,42 @@ public class Game : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Add +1 to the radar count.
+    /// </summary>
+    private void GainRadar()
+    {
+        radarActualValue++;
+    }
+
+    /// <summary>
+    /// Get the actual count of the radar.
+    /// </summary>
+    /// <returns> The number of radar.</returns>
+    private int GetRadarCount()
+    {
+        return radarActualValue;
+    }
+
+    /// <summary>
+    /// Get the number of tile revealed.
+    /// </summary>
+    /// <returns> The number of tile revealed.</returns>
+    private int GetNumberTileRevealed()
+    {
+        numberTileRevealed = 0;
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                if (tab[i, j].revealed == true)
+                {
+                    numberTileRevealed++;
+                }
+            }
+        }
+        return numberTileRevealed;
+    }
 
     /// <summary>
     /// Set the difficulty by switching in the Enum Difficulty.
@@ -159,28 +208,36 @@ public class Game : MonoBehaviour
                 height = 10;
                 difficulty = 6;
                 difficulty = 5;
-                nbrUseRadar = 4;
+                radarInitValue = 4;
+                canGainRadar = false;
                 break;
             case 1:
                 currentDifficulty = Difficulty.Medium;
                 width = 20;
                 height = 20;
                 difficulty = 4;
-                nbrUseRadar = 3;
+                radarInitValue = 3;
+                canGainRadar = false;
                 break;
             case 2:
                 currentDifficulty = Difficulty.Hard;
                 width = 30;
                 height = 30;
                 difficulty = 3;
-                nbrUseRadar = 2;
+                radarInitValue = 2;
+                radarCountToGain = 40;
+                radarActualValue = radarInitValue; // Set actual value to the initial value at the start of the game
+                canGainRadar = true;
                 break;
             case 3:
                 currentDifficulty = Difficulty.Madness;
                 width = 50;
                 height = 50;
                 difficulty = 2;
-                nbrUseRadar = 1;
+                radarInitValue = 1;
+                radarCountToGain = 25;
+                radarActualValue = radarInitValue; // Set actual value to the initial value at the start of the game
+                canGainRadar = true;
                 break;
         }
     }
