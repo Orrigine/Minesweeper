@@ -97,9 +97,13 @@ public class Game : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(0))
         {
-
-            if (mouseInWorld.x <= width && mouseInWorld.x > 0 && mouseInWorld.y <= width && mouseInWorld.y > 0)
+            if (gameOver == true)
             {
+                SceneManager.LoadScene("Menu/loseScene");
+            }
+            else if (mouseInWorld.x <= width && mouseInWorld.x > 0 && mouseInWorld.y <= width && mouseInWorld.y > 0)
+            {
+
                 if (radarUse == true)
                 {
                     radarUse = false;
@@ -278,6 +282,7 @@ public class Game : MonoBehaviour
             else if (GetCellFromPosition(poscell).secretTile == Cell.Type.Bomb)
             {
                 board.ChangeTile(new Vector3Int(poscell.x, poscell.y, 0), board.TileBomb);
+                RevealAllBombs();
                 Explode(GetCellFromPosition(poscell));
             }
             else if (GetCellFromPosition(poscell).secretTile == Cell.Type.Number)
@@ -616,22 +621,25 @@ public class Game : MonoBehaviour
     private void Explode(Cell cell)
     {
         RevealTile(GetCellFromPosition(new Vector3Int(cell.position.x, cell.position.y, 0)).position);
-        // Reveal all the bombs
+
+        gameOver = true;
+        Debug.LogWarning("BOOM !");
+    }
+
+
+    /// <summary>
+    /// Reveal all the bombs on the map.
+    private void RevealAllBombs()
+    {
         for (int h = 0; h < height; h++)
         {
             for (int w = 0; w < width; w++)
             {
                 if (tab[w, h].secretTile == Cell.Type.Bomb)
                 {
-                    RevealTile(new Vector3Int(w, h, 0));
+                    board.ChangeTile(new Vector3Int(tab[w, h].position.x, tab[w, h].position.y, 0), board.TileBomb);
                 }
             }
-        }
-        Debug.LogWarning("BOOM !");
-        gameOver = true;
-        if (Input.GetMouseButtonDown(0))
-        {
-            SceneManager.LoadScene("Menu/loseScene");
         }
     }
 
