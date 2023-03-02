@@ -72,7 +72,6 @@ public class Game : MonoBehaviour
     void Update()
     {
 
-
         Vector3 mouseInScreen = Input.mousePosition;
         mouseInScreen.z = distanceFromCamera;
         mouseInWorld = Camera.main.ScreenToWorldPoint(mouseInScreen);
@@ -139,9 +138,7 @@ public class Game : MonoBehaviour
                     }
                 }
             }
-
         }
-
     }
 
 
@@ -343,7 +340,6 @@ public class Game : MonoBehaviour
                 tab[x, y] = cell;
 
             }
-
         }
     }
 
@@ -559,6 +555,10 @@ public class Game : MonoBehaviour
         GenerateNumbers();
     }
 
+    // private void HandleOneClick()
+    // {
+    //     if()
+    // }
     /// <summary>
     /// Get the cell and modify the cell from the given position , a value and a type ( reaveled / flagged ).
     /// </summary>
@@ -615,20 +615,24 @@ public class Game : MonoBehaviour
     /// <param name="cell">The cell that exploded</param>
     private void Explode(Cell cell)
     {
+        RevealTile(GetCellFromPosition(new Vector3Int(cell.position.x, cell.position.y, 0)).position);
+        // Reveal all the bombs
         for (int h = 0; h < height; h++)
         {
             for (int w = 0; w < width; w++)
             {
-                if (tab[w, h].type == Cell.Type.Bomb)
+                if (tab[w, h].secretTile == Cell.Type.Bomb)
                 {
-                    cell.revealed = true;
-                    tab[w, h] = cell;
+                    RevealTile(new Vector3Int(w, h, 0));
                 }
             }
         }
         Debug.LogWarning("BOOM !");
         gameOver = true;
-        SceneManager.LoadScene("Menu/loseScene");
+        if (Input.GetMouseButtonDown(0))
+        {
+            SceneManager.LoadScene("Menu/loseScene");
+        }
     }
 
     /// <summary>
@@ -647,7 +651,7 @@ public class Game : MonoBehaviour
             for (int y = -1; y < 2; y++)
             {
 
-                Vector3Int vect = new Vector3Int(position.x + x, position.y + y, 0);
+                Vector3Int vect = new(position.x + x, position.y + y, 0);
 
                 if (IsInBounds(vect))
                 {
@@ -709,7 +713,7 @@ public class Game : MonoBehaviour
                 {
                     for (int y = -1; y < 2; y++)
                     {
-                        Vector3Int vect = new Vector3Int(position.x + x, position.y + y, 0);
+                        Vector3Int vect = new(position.x + x, position.y + y, 0);
 
                         if (IsInBounds(vect))
                         {
@@ -738,7 +742,7 @@ public class Game : MonoBehaviour
         {
             for (int y = -1; y < 2; y++)
             {
-                Vector3Int vect = new Vector3Int(position.x + x, position.y + y, 0);
+                Vector3Int vect = new(position.x + x, position.y + y, 0);
                 if (IsInBounds(vect))
                 {
 
@@ -783,7 +787,7 @@ public class Game : MonoBehaviour
         {
             for (int y = -1; y < 2; y++)
             {
-                Vector3Int vect = new Vector3Int(radarpos.x + x, radarpos.y + y, 0);
+                Vector3Int vect = new(radarpos.x + x, radarpos.y + y, 0);
                 if (IsInBounds(vect))
                 {
                     if (GetCellFromPosition(vect).revealed == false)
