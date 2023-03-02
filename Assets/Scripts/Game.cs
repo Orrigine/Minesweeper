@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using static UnityEngine.UI.Image;
 using UnityEngine.Events;
-using VSCodeEditor;
-using UnityEngine.UIElements;
-using System.Linq.Expressions;
-using System.Diagnostics.Tracing;
+using UnityEngine.SceneManagement;
+
 
 public class Game : MonoBehaviour
 {
@@ -15,16 +12,19 @@ public class Game : MonoBehaviour
     [SerializeField] private int width = 0;
     [SerializeField] private int height = 0;
 
-
-    [SerializeField] private Difficulty? currentDifficulty = null;
+    public Difficulty? currentDifficulty = null;
     private bool gameOver = false;
     private bool gameWon = false;
     private bool gameStarted = false;
     private bool radarUse = false;
     private Vector3Int radarpos;
-    private int nbrUseRadar;
+    public int radarInitValue;
+    public int radarActualValue;
+    private int radarCountToGain;
+    private int numberTileRevealed = 0;
+    private bool canGainRadar = false;
 
-    private enum Difficulty
+    public enum Difficulty
     {
         Easy,
         Medium,
@@ -44,6 +44,7 @@ public class Game : MonoBehaviour
     private void Awake()
     {
         board = GetComponentInChildren<Board>();
+        // radarActualValue = GetComponentInChildren<RadarUI>().radarActualValue;
     }
 
     /// <summary>
@@ -52,7 +53,6 @@ public class Game : MonoBehaviour
     private void Start()
     {
         m_event ??= new UnityEvent();
-        currentDifficulty = Difficulty.Medium;
         SetDifficulty();
         NewGame();
     }
@@ -69,13 +69,13 @@ public class Game : MonoBehaviour
         SetCameraSize();
     }
 
+
     // Create Zoom function using mousepos in world
     /// <summary>
     /// Update function from Unity.
     /// </summary>
     void Update()
     {
-
 
         Vector3 mouseInScreen = Input.mousePosition;
         mouseInScreen.z = distanceFromCamera;
@@ -87,6 +87,7 @@ public class Game : MonoBehaviour
         HandleZoom();
         HandleMove();
 
+        // Handle First click to start the game
         if (Input.GetMouseButtonDown(0) && gameStarted == false)
         {
             if (IsInBounds(mouseInWorld))
@@ -94,16 +95,21 @@ public class Game : MonoBehaviour
                 HandleFirstClick();
             }
         }
-        if (Input.GetKeyDown(KeyCode.I) && gameStarted == true && radarUse == false && nbrUseRadar > 0)
+        // Usage of radar
+        if (Input.GetKeyDown(KeyCode.I) && gameStarted == true && radarUse == false && GetRadarCount() > 0)
         {
-            nbrUseRadar--;
             Vector3Int poscell = new((int)mouseInWorld.x, (int)mouseInWorld.y, 0);
+            radarActualValue--;
             Radar(poscell);
         }
+        // Reveal part
         if (Input.GetMouseButtonDown(0))
         {
-
-            if (mouseInWorld.x <= width && mouseInWorld.x > 0 && mouseInWorld.y <= width && mouseInWorld.y > 0)
+            if (gameOver == true)
+            {
+                SceneManager.LoadScene("Menu/loseScene");
+            }
+            else if (mouseInWorld.x <= width && mouseInWorld.x > 0 && mouseInWorld.y <= width && mouseInWorld.y > 0)
             {
                 if (radarUse == true)
                 {
@@ -116,8 +122,16 @@ public class Game : MonoBehaviour
                 /**/
                 ClickCleanAround(poscell);
                 RevealTile(poscell);
+                if (canGainRadar == true)
+                {
+                    if (GetNumberTileRevealed() != 0 && GetNumberTileRevealed() % radarCountToGain == 0)
+                    {
+                        GainRadar();
+                    }
+                }
             }
         }
+        // Flag part
         else if (Input.GetMouseButtonDown(1))
         {
             if (mouseInWorld.x <= width && mouseInWorld.x > 0 && mouseInWorld.y <= width && mouseInWorld.y > 0)
@@ -143,43 +157,91 @@ public class Game : MonoBehaviour
                     }
                 }
             }
-
         }
-
     }
 
+    /// <summary>
+    /// Add +1 to the radar count.
+    /// </summary>
+    private void GainRadar()
+    {
+        radarActualValue++;
+    }
+
+    /// <summary>
+    /// Get the actual count of the radar.
+    /// </summary>
+    /// <returns> The number of radar.</returns>
+    private int GetRadarCount()
+    {
+        return radarActualValue;
+    }
+
+    /// <summary>
+    /// Get the number of tile revealed.
+    /// </summary>
+    /// <returns> The number of tile revealed.</returns>
+    private int GetNumberTileRevealed()
+    {
+        numberTileRevealed = 0;
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                if (tab[i, j].revealed == true)
+                {
+                    numberTileRevealed++;
+                }
+            }
+        }
+        return numberTileRevealed;
+    }
 
     /// <summary>
     /// Set the difficulty by switching in the Enum Difficulty.
     /// </summary>
     private void SetDifficulty()
     {
-        switch (currentDifficulty)
+        switch (PlayerPrefs.GetInt("Difficulty", (int)Difficulty.Medium))
         {
-            case Difficulty.Easy:
+            case 0:
+                currentDifficulty = Difficulty.Easy;
                 width = 10;
                 height = 10;
                 difficulty = 6;
                 difficulty = 5;
-                nbrUseRadar = 4;
+                radarInitValue = 4;
+                radarActualValue = radarInitValue;
+                canGainRadar = false;
                 break;
-            case Difficulty.Medium:
+            case 1:
+                currentDifficulty = Difficulty.Medium;
                 width = 20;
                 height = 20;
                 difficulty = 4;
-                nbrUseRadar = 3;
+                radarInitValue = 3;
+                radarActualValue = radarInitValue;
+                canGainRadar = false;
                 break;
-            case Difficulty.Hard:
+            case 2:
+                currentDifficulty = Difficulty.Hard;
                 width = 30;
                 height = 30;
                 difficulty = 3;
-                nbrUseRadar = 2;
+                radarInitValue = 2;
+                radarCountToGain = 40;
+                radarActualValue = radarInitValue; 
+                canGainRadar = true;
                 break;
-            case Difficulty.Madness:
+            case 3:
+                currentDifficulty = Difficulty.Madness;
                 width = 50;
                 height = 50;
                 difficulty = 2;
-                nbrUseRadar = 1;
+                radarInitValue = 1;
+                radarCountToGain = 25;
+                radarActualValue = radarInitValue; 
+                canGainRadar = true;
                 break;
         }
     }
@@ -215,7 +277,7 @@ public class Game : MonoBehaviour
             Vector3 zoomPos = Camera.main.transform.position + ((mousePos - Camera.main.transform.position) * 0.1f);
             Camera.main.transform.position = zoomPos;
 
-            if (Camera.main.orthographicSize != maxZoom-1)
+            if (Camera.main.orthographicSize != maxZoom - 1)
                 Camera.main.orthographicSize += 1;
         }
     }
@@ -281,6 +343,7 @@ public class Game : MonoBehaviour
             else if (GetCellFromPosition(poscell).secretTile == Cell.Type.Bomb)
             {
                 board.ChangeTile(new Vector3Int(poscell.x, poscell.y, 0), board.TileBomb);
+                RevealAllBombs();
                 Explode(GetCellFromPosition(poscell));
             }
             else if (GetCellFromPosition(poscell).secretTile == Cell.Type.Number)
@@ -343,7 +406,6 @@ public class Game : MonoBehaviour
                 tab[x, y] = cell;
 
             }
-
         }
     }
 
@@ -559,6 +621,10 @@ public class Game : MonoBehaviour
         GenerateNumbers();
     }
 
+    // private void HandleOneClick()
+    // {
+    //     if()
+    // }
     /// <summary>
     /// Get the cell and modify the cell from the given position , a value and a type ( reaveled / flagged ).
     /// </summary>
@@ -615,18 +681,24 @@ public class Game : MonoBehaviour
     /// <param name="cell">The cell that exploded</param>
     private void Explode(Cell cell)
     {
+        RevealTile(GetCellFromPosition(new Vector3Int(cell.position.x, cell.position.y, 0)).position);
 
-        Debug.LogWarning("BOOM !");
         gameOver = true;
+        Debug.LogWarning("BOOM !");
+    }
 
+
+    /// <summary>
+    /// Reveal all the bombs on the map.
+    private void RevealAllBombs()
+    {
         for (int h = 0; h < height; h++)
         {
             for (int w = 0; w < width; w++)
             {
-                if (tab[w, h].type == Cell.Type.Bomb)
+                if (tab[w, h].secretTile == Cell.Type.Bomb)
                 {
-                    cell.revealed = true;
-                    tab[w, h] = cell;
+                    board.ChangeTile(new Vector3Int(tab[w, h].position.x, tab[w, h].position.y, 0), board.TileBomb);
                 }
             }
         }
@@ -648,7 +720,7 @@ public class Game : MonoBehaviour
             for (int y = -1; y < 2; y++)
             {
 
-                Vector3Int vect = new Vector3Int(position.x + x, position.y + y, 0);
+                Vector3Int vect = new(position.x + x, position.y + y, 0);
 
                 if (IsInBounds(vect))
                 {
@@ -673,6 +745,7 @@ public class Game : MonoBehaviour
         {
             gameWon = true;
             Debug.LogWarning("You won !");
+            SceneManager.LoadScene("Menu/winScene");
         }
     }
     /// <summary>
@@ -709,7 +782,7 @@ public class Game : MonoBehaviour
                 {
                     for (int y = -1; y < 2; y++)
                     {
-                        Vector3Int vect = new Vector3Int(position.x + x, position.y + y, 0);
+                        Vector3Int vect = new(position.x + x, position.y + y, 0);
 
                         if (IsInBounds(vect))
                         {
@@ -738,7 +811,7 @@ public class Game : MonoBehaviour
         {
             for (int y = -1; y < 2; y++)
             {
-                Vector3Int vect = new Vector3Int(position.x + x, position.y + y, 0);
+                Vector3Int vect = new(position.x + x, position.y + y, 0);
                 if (IsInBounds(vect))
                 {
 
@@ -783,7 +856,7 @@ public class Game : MonoBehaviour
         {
             for (int y = -1; y < 2; y++)
             {
-                Vector3Int vect = new Vector3Int(radarpos.x + x, radarpos.y + y, 0);
+                Vector3Int vect = new(radarpos.x + x, radarpos.y + y, 0);
                 if (IsInBounds(vect))
                 {
                     if (GetCellFromPosition(vect).revealed == false)

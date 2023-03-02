@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 using static UnityEngine.UI.Image;
-using VSCodeEditor;
 
 public class Board : MonoBehaviour
 {

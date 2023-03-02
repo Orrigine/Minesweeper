@@ -6,7 +6,6 @@ public class buttonBack : MonoBehaviour
 {
     public void Back()
     {
-        Debug.Log("oui");
         SceneManager.LoadScene("Menu/SceneMenu");
     }
 }
