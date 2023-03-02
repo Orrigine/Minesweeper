@@ -18,8 +18,8 @@ public class Game : MonoBehaviour
     private bool gameStarted = false;
     private bool radarUse = false;
     private Vector3Int radarpos;
-    private int radarInitValue;
-    private int radarActualValue;
+    public int radarInitValue;
+    public int radarActualValue;
     private int radarCountToGain;
     private int numberTileRevealed = 0;
     private bool canGainRadar = false;
@@ -44,6 +44,7 @@ public class Game : MonoBehaviour
     private void Awake()
     {
         board = GetComponentInChildren<Board>();
+        // radarActualValue = GetComponentInChildren<RadarUI>().radarActualValue;
     }
 
     /// <summary>
@@ -67,6 +68,7 @@ public class Game : MonoBehaviour
         SetCameraPosition();
         SetCameraSize();
     }
+
 
     // Create Zoom function using mousepos in world
     /// <summary>
@@ -209,6 +211,7 @@ public class Game : MonoBehaviour
                 difficulty = 6;
                 difficulty = 5;
                 radarInitValue = 4;
+                radarActualValue = radarInitValue;
                 canGainRadar = false;
                 break;
             case 1:
@@ -217,6 +220,7 @@ public class Game : MonoBehaviour
                 height = 20;
                 difficulty = 4;
                 radarInitValue = 3;
+                radarActualValue = radarInitValue;
                 canGainRadar = false;
                 break;
             case 2:
@@ -226,7 +230,7 @@ public class Game : MonoBehaviour
                 difficulty = 3;
                 radarInitValue = 2;
                 radarCountToGain = 40;
-                radarActualValue = radarInitValue; // Set actual value to the initial value at the start of the game
+                radarActualValue = radarInitValue; 
                 canGainRadar = true;
                 break;
             case 3:
@@ -236,7 +240,7 @@ public class Game : MonoBehaviour
                 difficulty = 2;
                 radarInitValue = 1;
                 radarCountToGain = 25;
-                radarActualValue = radarInitValue; // Set actual value to the initial value at the start of the game
+                radarActualValue = radarInitValue; 
                 canGainRadar = true;
                 break;
         }

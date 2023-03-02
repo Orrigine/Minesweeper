@@ -6,7 +6,6 @@ public class buttonPlay : MonoBehaviour
 {
     public void Play()
     {
-        Debug.Log("oui");
-        SceneManager.LoadScene("Menu/Difficulté");
+        SceneManager.LoadScene("Menu/DifficultÃ©");
     }   
 }
